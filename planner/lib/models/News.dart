@@ -1,4 +1,4 @@
-class Announcement {
+class News {
   int id;
   String title;
   String description;
@@ -7,7 +7,7 @@ class Announcement {
   String created_at;
   String updated_at;
 
-  Announcement(
+  News(
       {this.id,
       this.title,
       this.description,
@@ -16,7 +16,7 @@ class Announcement {
       this.created_at,
       this.updated_at});
 
-  Announcement.fromJSON(Map<String, dynamic> json)
+  News.fromJSON(Map<String, dynamic> json)
       : id = json['id'],
         title = json['title'],
         description = json['description'],
