@@ -39,9 +39,11 @@ class _RegisterAddressState extends State<RegisterAddress> {
   void register() async {
     Uri register =
         Uri.parse("https://hawkingnight.com/planner/public/api/register");
-    final response = await http.post(register, headers: {
+    final response = await http.post(register, 
+    headers: {
       "Accept": "application/json"
-    }, body: {
+    }, 
+    body: {
       'name': widget.name,
       'email': widget.email,
       'password': widget.password,

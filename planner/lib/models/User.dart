@@ -5,18 +5,22 @@ class User {
   String phone_no;
   String matric_no;
   String image;
+  String status;
 
-  User(this.id, this.name, this.email, this.phone_no, this.matric_no, this.image);
+  User(this.status, this.id, this.name, this.email, this.phone_no, this.matric_no,
+      this.image);
 
   User.fromJSON(Map<String, dynamic> json)
-      : id = json['id'],
-        name = json['name'],
-        email = json['email'],
-        phone_no = json['phone_no'],
-        matric_no = json['matric_no'],
-        image = json['image'];
+      : status = json["status"],
+        id = json['user']['id'],
+        name = json['user']['name'],
+        email = json['user']['email'],
+        phone_no = json['user']['phone_no'],
+        matric_no = json['user']['matric_no'],
+        image = json['user']['image'];
 
   Map<String, dynamic> toJSON() => {
+        'status': status,
         'id': id,
         'name': name,
         'email': email,
