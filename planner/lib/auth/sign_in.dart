@@ -46,6 +46,10 @@ class _LoginState extends State<Login> {
         var userData = User.fromJSON(userMap);
 
         prefs.setInt('userID', userData.id);
+        prefs.setString('userName', userData.name);
+        prefs.setString('userMatricNo', userData.matric_no);
+        prefs.setString('userImage', userData.image);
+        prefs?.setBool("isLoggedIn", true);
 
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text("Sign In Successfully!")));
@@ -61,7 +65,6 @@ class _LoginState extends State<Login> {
       throw Exception('Unable to fetch products from the REST API');
     }
   }
-
 
   // Widgets
   Widget form() {

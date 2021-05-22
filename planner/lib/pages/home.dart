@@ -23,9 +23,9 @@ class _HomepageState extends State<Homepage> {
     setState(() {
       userID = prefs.getInt('userID');
       
-      name = prefs.getString('name');
-      matric_no = prefs.getString('matric_no');
-      imageURL = prefs.getString('image');
+      name = prefs.getString('userName');
+      matric_no = prefs.getString('userMatricNo');
+      imageURL = prefs.getString('userImage');
     });
   }
 

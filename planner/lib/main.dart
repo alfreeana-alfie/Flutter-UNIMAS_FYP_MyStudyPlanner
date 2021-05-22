@@ -1,8 +1,8 @@
 import 'dart:io';
-import 'package:MyUni/auth/sign_in.dart';
+import 'package:MyUni/pages/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:MyUni/auth/sign_in.dart';
-import 'package:MyUni/pages/main_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -13,11 +13,16 @@ class MyHttpOverrides extends HttpOverrides {
   }
 }
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = new MyHttpOverrides();
-  runApp( MaterialApp (
-      debugShowCheckedModeBanner: false,
-      home: Login(),
-    )
-  );
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  var status = prefs.getBool('isLoggedIn') ?? false;
+  print(status);
+
+  runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: status == true ? MainScreen() : Login(),
+  ));
 }
