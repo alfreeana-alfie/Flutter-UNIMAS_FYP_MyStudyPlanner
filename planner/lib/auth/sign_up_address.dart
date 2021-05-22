@@ -61,8 +61,8 @@ class _RegisterAddressState extends State<RegisterAddress> {
           .showSnackBar(SnackBar(content: Text("Success!")));
       Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
     } else {
-      print(response.statusCode);
-      print(response.body);
+      // print(response.statusCode);
+      // print(response.body);
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(response.body)));
     }
