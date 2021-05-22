@@ -60,8 +60,6 @@ flutter:
     - family: Metropolis
       fonts:
         - asset: fonts/Metropolis-Regular.otf
-        - asset: fonts/Metropolis-Italic.ttf
-          style: italic
         - asset: fonts/Metropolis-Black.otf
           weight: 900
         - asset: fonts/Metropolis-ExtraBold.otf

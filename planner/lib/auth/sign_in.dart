@@ -1,14 +1,15 @@
+import 'dart:convert';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:MyUni/auth/sign_up.dart';
-import 'package:MyUni/auth/verify_email.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:http/http.dart' as http;
-import 'package:MyUni/models/User.dart';
-import 'package:MyUni/pages/main_screen.dart';
-import 'dart:convert';
-
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:MyUni/auth/sign_up.dart';
+import 'package:MyUni/auth/verify_email.dart';
+import 'package:MyUni/models/User.dart';
+import 'package:MyUni/models/Verify.dart';
+import 'package:MyUni/pages/main_screen.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -24,36 +25,43 @@ class _LoginState extends State<Login> {
   User user;
   List userList;
   Map<String, dynamic> userMap;
+  Map<String, dynamic> verifyMap;
 
   // Methods
   void login() async {
     final prefs = await SharedPreferences.getInstance();
-    String postURL = "https://hawkingnight.com/planner/public/api/login";
-    Uri postURI = Uri.parse(postURL);
-    await http.post(postURI, headers: {
-      "Accept": "application/json"
-    }, body: {
-      "matric_no": matricNo,
-      "password": password,
-    }).then((value) {
-      userMap = jsonDecode(value.body);
-      var user = User.fromJSON(userMap);
 
-      prefs.setInt('userID', user.id);
-      prefs.setString('name', "${user.name}");
-      prefs.setString('email', "${user.email}");
-      prefs.setString('phone_no', "${user.phone_no}");
-      prefs.setString('matric_no', "${user.matric_no}");
-      prefs.setString('image', "${user.image}");
+    Uri loginURL =
+        Uri.parse("https://hawkingnight.com/planner/public/api/login");
+    final response = await http.post(loginURL,
+        headers: {"Accept": "application/json"},
+        body: {"matric_no": matricNo, "password": password});
+    if (response.statusCode == 200) {
+      verifyMap = jsonDecode(response.body);
+      var verifyData = Verify.fromJSON(verifyMap);
 
-      // ScaffoldMessenger.of(context)
-      //     .showSnackBar(SnackBar(content: Text("Sign In Successfully!")));
-      // if (value.statusCode == 200) {
-      //   Navigator.push(
-      //       context, MaterialPageRoute(builder: (context) => MainScreen()));
-      // }
-    });
+      if (verifyData.status == 'Success') {
+        print('Sucess');
+        userMap = jsonDecode(response.body);
+        var userData = User.fromJSON(userMap);
+
+        prefs.setInt('userID', userData.id);
+
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text("Sign In Successfully!")));
+
+        Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()));
+
+      } else {
+        print('Failed to fetch');
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text("Incorrect Matric No or Password")));
+      }
+    } else {
+      throw Exception('Unable to fetch products from the REST API');
+    }
   }
+
 
   // Widgets
   Widget form() {
