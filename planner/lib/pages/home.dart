@@ -29,10 +29,6 @@ class _HomepageState extends State<Homepage> {
     });
   }
 
-  Future getUserDetails() async {
-    
-  }
-
   Future getLesson() async {}
 
   // List<Lesson> lessons = [
