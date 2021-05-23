@@ -48,7 +48,7 @@ class _LoginState extends State<Login> {
         prefs.setInt('userID', userData.id);
         prefs.setString('userName', userData.name);
         prefs.setString('userMatricNo', userData.matric_no);
-        prefs.setString('userImage', userData.image);
+        prefs.setString('userImageURL', userData.image);
         prefs?.setBool("isLoggedIn", true);
 
         ScaffoldMessenger.of(context)

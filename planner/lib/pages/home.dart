@@ -1,7 +1,8 @@
-
+import 'package:MyUni/models/Verify.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Homepage extends StatefulWidget {
   @override
@@ -15,21 +16,52 @@ class _HomepageState extends State<Homepage> {
   String matric_no;
   String imageURL = "";
 
-  Map<String, dynamic> userMap;
+  List data = [];
+  Map<String, dynamic> verifyMap;
 
   Future getUserID() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     setState(() {
       userID = prefs.getInt('userID');
-      
+
       name = prefs.getString('userName');
       matric_no = prefs.getString('userMatricNo');
       imageURL = prefs.getString('userImage');
+
+      getLesson();
     });
   }
 
-  Future getLesson() async {}
+  Future getLesson() async {
+    var userIDStr = userID.toString();
+    print(userID.toString());
+
+    Uri getLessonURI = Uri.parse(
+        "https://hawkingnight.com/planner/public/api/get-lesson/$userIDStr");
+
+    final response =
+        await http.get(getLessonURI, headers: {'Accept': 'application/json'});
+
+    if (response.statusCode == 200) {
+      verifyMap = jsonDecode(response.body);
+      var verifyData = Verify.fromJSON(verifyMap);
+
+      if (verifyData.status == "SUCCESS") {
+        print('Got Data');
+      }else{
+        print('No Data');
+      }
+    } else {
+      throw Exception('Unable to fetch products from the REST API');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUserID();
+  }
 
   // List<Lesson> lessons = [
   //   Lesson(
@@ -64,13 +96,6 @@ class _HomepageState extends State<Homepage> {
   //       description: 'Lecture class will be held on Tue, 14 Nov 2020.',
   //       created_at: '10-10-2020')
   // ];
-
-  @override
-  void initState() {
-    super.initState();
-    getUserID();
-    // getUserDetails();
-  }
 
   Widget userOverview() {
     return Padding(

@@ -36,10 +36,13 @@ class _VerificationState extends State<Verification> {
 
       if (verifyData.status == "Success") {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => ForgotPassword(
-              matric_no: matricNo,
-              email: email
-            )));
+            context, MaterialPageRoute(
+              builder: (context) => ForgotPassword(
+                matric_no: matricNo,
+                email: email
+            )
+          )
+        );
       }
     } else {
       throw Exception('Unable to fetch data from the REST API');

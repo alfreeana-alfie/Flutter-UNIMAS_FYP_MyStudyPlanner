@@ -30,13 +30,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   void getData() async {
     Uri loginURI =
         Uri.parse("https://hawkingnight.com/planner/public/api/forgot");
-    await http.post(loginURI, headers: {
-      "Accept": "application/json"
-    }, body: {
-      "email": widget.email,
-      "matric_no": widget.matric_no,
-      "password": password,
-    }).then((value) => print("Response Status : ${value.statusCode}"));
 
     final response = await http
         .post(

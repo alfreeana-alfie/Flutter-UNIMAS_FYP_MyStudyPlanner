@@ -50,6 +50,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.3"
+  day_picker:
+    dependency: "direct main"
+    description:
+      name: day_picker
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
   fake_async:
     dependency: transitive
     description:
@@ -76,6 +83,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_material_color_picker:
+    dependency: "direct main"
+    description:
+      name: flutter_material_color_picker
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.5"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -301,6 +315,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.19"
+  time_range:
+    dependency: "direct main"
+    description:
+      name: time_range
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   timezone:
     dependency: transitive
     description:

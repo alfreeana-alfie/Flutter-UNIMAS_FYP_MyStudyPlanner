@@ -11,7 +11,8 @@ class _TimetableState extends State<Timetable> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar:
-            AppBar(backgroundColor: Colors.blue[900], title: Text('Timetable')),
+            AppBar(
+              backgroundColor: Colors.blue[900], title: Text('Timetable')),
         body: SfCalendar(
           view: CalendarView.week,
           firstDayOfWeek: 1,
