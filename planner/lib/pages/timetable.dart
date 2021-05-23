@@ -1,5 +1,12 @@
+import 'package:MyUni/pages/add_lesson.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+import 'package:MyUni/models/Verify.dart';
+import 'package:MyUni/models/Lesson.dart';
 
 class Timetable extends StatefulWidget {
   @override
@@ -7,12 +14,55 @@ class Timetable extends StatefulWidget {
 }
 
 class _TimetableState extends State<Timetable> {
+  Map<String, dynamic> verifyMap;
+  Map<String, dynamic> lessonList;
+
+  Future getSharedData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      var userID = prefs.getInt("userID");
+
+      getLessonList(userID.toString());
+    });
+  }
+
+  Future getLessonList(String userIDStr) async {
+    Uri getAPILink = Uri.parse(
+        "https://hawkingnight.com/planner/public/api/get-lesson/$userIDStr");
+
+    final response =
+        await http.get(getAPILink, headers: {"Accept": "application/json"});
+
+    if (response.statusCode == 200) {
+      verifyMap = jsonDecode(response.body);
+      var verifyData = Verify.fromJSON(verifyMap);
+
+      if (verifyData.status == "SUCCESS") {
+        lessonList = jsonDecode(response.body);
+
+        _parseLesson(lessonList);
+      } else {
+        print('Failed to fetch!');
+      }
+    } else {
+      throw Exception('Unable to fetch data from the REST API');
+    }
+  }
+
+  
+
+  @override
+  void initState() {
+    super.initState();
+    getSharedData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar:
-            AppBar(
-              backgroundColor: Colors.blue[900], title: Text('Timetable')),
+            AppBar(backgroundColor: Colors.blue[900], title: Text('Timetable')),
         body: SfCalendar(
           view: CalendarView.week,
           firstDayOfWeek: 1,
@@ -23,43 +73,24 @@ class _TimetableState extends State<Timetable> {
         ),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
-          onPressed: _showAddDialog,
+          onPressed: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => AddLesson()));
+          },
         ));
   }
-
-  _showAddDialog() async {
-    await showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-              title: Text("Add Events"),
-              content: TextField(
-                  // controller: _eventController,
-                  ),
-              actions: [
-                TextButton(
-                  child: Text("Save"),
-                  onPressed: () {
-                    // if (_eventController.text.isEmpty) return;
-                    //   if (_events[_controller.selectedDay] != null) {
-                    //     _events[_controller.selectedDay]
-                    //         .add(_eventController.text);
-                    //   } else {
-                    //     _events[_controller.selectedDay] = [
-                    //       _eventController.text
-                    //     ];
-                    //   }
-                    //   prefs.setString("events", json.encode(encodeMap(_events)));
-                    //   _eventController.clear();
-                    //   Navigator.pop(context);
-                  },
-                ),
-              ],
-            ));
-    setState(() {
-      // _selectedEvents = _events[_controller.selectedDay];
-    });
-  }
 }
+
+List<Lesson> _parseLesson(Map<String, dynamic> map) {
+    final lesson = <Lesson>[];
+    for (var lessonMap in map['lesson']) {
+      final lessons = Lesson.fromMap(lessonMap);
+      lesson.add(lessons);
+
+      
+    }
+    return lesson;
+  }
 
 List<Appointment> getAppointments() {
   List<Appointment> meetings = [];

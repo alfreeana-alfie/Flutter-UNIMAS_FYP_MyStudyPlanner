@@ -6,8 +6,14 @@ class User {
   String matric_no;
   String image;
 
-  User(this.id, this.name, this.email, this.phone_no, this.matric_no,
-      this.image);
+  User(
+    this.id, 
+    this.name, 
+    this.email, 
+    this.phone_no, 
+    this.matric_no,
+    this.image
+  );
 
   User.fromJSON(Map<String, dynamic> json)
       : id = json['user']['id'],

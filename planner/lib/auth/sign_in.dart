@@ -62,7 +62,7 @@ class _LoginState extends State<Login> {
             .showSnackBar(SnackBar(content: Text("Incorrect Matric No or Password")));
       }
     } else {
-      throw Exception('Unable to fetch products from the REST API');
+      throw Exception('Unable to fetch data from the REST API');
     }
   }
 

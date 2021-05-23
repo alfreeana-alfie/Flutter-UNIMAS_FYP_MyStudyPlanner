@@ -53,7 +53,7 @@ class _HomepageState extends State<Homepage> {
         print('No Data');
       }
     } else {
-      throw Exception('Unable to fetch products from the REST API');
+      throw Exception('Unable to fetch data from the REST API');
     }
   }
 
