@@ -22,12 +22,12 @@ Future<void> main() async {
   var status = prefs.getBool('isLoggedIn') ?? false;
   print(status);
 
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: MainScreen(),
-  ));
   // runApp(MaterialApp(
   //   debugShowCheckedModeBanner: false,
-  //   home: status == true ? MainScreen() : Login(),
+  //   home: MainScreen(),
   // ));
+  runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: status == true ? MainScreen() : Login(),
+  ));
 }

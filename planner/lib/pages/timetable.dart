@@ -82,15 +82,14 @@ class _TimetableState extends State<Timetable> {
 }
 
 List<Lesson> _parseLesson(Map<String, dynamic> map) {
-    final lesson = <Lesson>[];
-    for (var lessonMap in map['lesson']) {
-      final lessons = Lesson.fromMap(lessonMap);
-      lesson.add(lessons);
-
-      
-    }
-    return lesson;
+  final lesson = <Lesson>[];
+  for (var lessonMap in map['lesson']) {
+    final lessons = Lesson.fromMap(lessonMap);
+    lesson.add(lessons);
   }
+  return lesson;
+}
+
 
 List<Appointment> getAppointments() {
   List<Appointment> meetings = [];

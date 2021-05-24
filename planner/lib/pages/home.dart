@@ -1,8 +1,10 @@
-import 'package:MyUni/models/Verify.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import 'package:MyUni/models/Verify.dart';
+import 'package:MyUni/models/Lesson.dart';
 
 class Homepage extends StatefulWidget {
   @override
@@ -16,8 +18,9 @@ class _HomepageState extends State<Homepage> {
   String matric_no;
   String imageURL = "";
 
-  List data = [];
+  List<Lesson> data = [];
   Map<String, dynamic> verifyMap;
+  Map<String, dynamic> lessonList;
 
   Future getUserID() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -29,32 +32,44 @@ class _HomepageState extends State<Homepage> {
       matric_no = prefs.getString('userMatricNo');
       imageURL = prefs.getString('userImage');
 
-      getLesson();
+      getLessonList(userID.toString());
     });
   }
 
-  Future getLesson() async {
-    var userIDStr = userID.toString();
-    print(userID.toString());
-
-    Uri getLessonURI = Uri.parse(
+  Future getLessonList(String userIDStr) async {
+    Uri getAPILink = Uri.parse(
         "https://hawkingnight.com/planner/public/api/get-lesson/$userIDStr");
 
     final response =
-        await http.get(getLessonURI, headers: {'Accept': 'application/json'});
+        await http.get(getAPILink, headers: {"Accept": "application/json"});
 
     if (response.statusCode == 200) {
       verifyMap = jsonDecode(response.body);
       var verifyData = Verify.fromJSON(verifyMap);
 
       if (verifyData.status == "SUCCESS") {
-        print('Got Data');
-      }else{
-        print('No Data');
+        lessonList = jsonDecode(response.body);
+        for (var lessonMap in lessonList['lesson']) {
+          final lessons = Lesson.fromMap(lessonMap);
+          setState(() {
+            data.add(lessons);
+          });
+        }
+      } else {
+        print('Failed to fetch!');
       }
     } else {
       throw Exception('Unable to fetch data from the REST API');
     }
+  }
+
+  List<Lesson> _parseLesson(Map<String, dynamic> map) {
+    final lesson = <Lesson>[];
+    for (var lessonMap in map['lesson']) {
+      final lessons = Lesson.fromMap(lessonMap);
+      lesson.add(lessons);
+    }
+    return lesson;
   }
 
   @override
@@ -62,27 +77,6 @@ class _HomepageState extends State<Homepage> {
     super.initState();
     getUserID();
   }
-
-  // List<Lesson> lessons = [
-  //   Lesson(
-  //       id: 1,
-  //       user_id: '1',
-  //       name: 'Multimedia Computing',
-  //       abbr: 'TMT4142',
-  //       startTime: '10:00 AM',
-  //       endTime: '11:00 AM',
-  //       day: 'Monday',
-  //       color: '#000000'),
-  //   Lesson(
-  //       id: 2,
-  //       user_id: '1',
-  //       name: 'Multimedia Computing',
-  //       abbr: 'TMT4142',
-  //       startTime: '10:00 AM',
-  //       endTime: '11:00 AM',
-  //       day: 'Monday',
-  //       color: '#000000')
-  // ];
 
   // List<Announcement> announcements = [
   //   Announcement(
@@ -183,19 +177,19 @@ class _HomepageState extends State<Homepage> {
               flex: 1,
               child: Container(child: userOverview()),
             ),
-            // Expanded(
-            //   flex: 2,
-            //   child: Card(
-            //       child: Column(children: [
-            //     ListTile(tileColor: Colors.red, title: Text('Monday')),
-            //     ListView(
-            //       shrinkWrap: true,
-            //       children: lessons.map((p) {
-            //         return lessonOverview(p);
-            //       }).toList(),
-            //     ),
-            //   ])),
-            // ),
+            Expanded(
+              flex: 2,
+              child: Card(
+                  child: Column(children: [
+                ListTile(tileColor: Colors.red, title: Text('Monday')),
+                ListView(
+                  shrinkWrap: true,
+                  children: data.map((p) {
+                    return lessonOverview(p);
+                  }).toList(),
+                ),
+              ])),
+            ),
             // Expanded(
             //     flex: 3,
             //     child: Card(

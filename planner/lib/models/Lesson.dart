@@ -37,16 +37,16 @@ class Lesson {
     );
   }
 
-  // Lesson.fromJSON(Map<String, dynamic> json)
-  //     : id = json['lesson']['id'],
-  //       name = json['lesson']['name'],
-  //       abbr = json['lesson']['abbr'],
-  //       color = json['lesson']['color'],
-  //       type = json['lesson']['type'],
-  //       teacher = json['lesson']['teacher'],
-  //       place = json['lesson']['place'],
-  //       day = json['lesson']['day'],
-  //       startTime = json['lesson']['startTime'],
-  //       endTime = json['lesson']['endTime'];
+  Lesson.fromJSON(Map<String, dynamic> json)
+      : id = json['lesson']['id'],
+        name = json['lesson']['name'],
+        abbr = json['lesson']['abbr'],
+        color = json['lesson']['color'],
+        type = json['lesson']['type'],
+        teacher = json['lesson']['teacher'],
+        place = json['lesson']['place'],
+        day = json['lesson']['day'],
+        startTime = json['lesson']['startTime'],
+        endTime = json['lesson']['endTime'];
 
 }
