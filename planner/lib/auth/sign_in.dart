@@ -19,7 +19,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> with TickerProviderStateMixin {
   AnimationController controller;
-  Animation<double> animationFadeIn;
+  Animation<double> animation;
 
   User user;
   List userList;
@@ -35,7 +35,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
     super.initState();
     controller =
         AnimationController(duration: Duration(seconds: 2), vsync: this);
-    animationFadeIn = CurvedAnimation(parent: controller, curve: Curves.easeIn);
+    animation = CurvedAnimation(parent: controller, curve: Curves.easeIn);
     controller.forward();
   }
 
@@ -84,38 +84,48 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
           gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [Colors.red, Colors.red[900]])),
-      child: FadeTransition(
-          opacity: animationFadeIn,
-          child: Center(
-              child: Material(
-                  elevation: 5,
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20.0),
-                  child: Form(
-                    key: _formKey,
-                    child: Container(
-                        width: 360,
-                        height: 360,
-                        child: Column(
-                          children: [
-                            buildMatricNo(),
-                            buildPassword(),
-                            buildForgotPassword(),
-                            buildSignIn(),
-                            buildSignUp()
-                          ],
-                        )),
-                  )))),
+              colors: [Colors.red[800], Colors.red[300]])),
+      child: Stack(
+        children: [
+          buildTitle(),
+          buildCard()
+        ],
+      ),
     );
+  }
+
+  Widget buildCard() {
+    return Container(
+        margin: EdgeInsets.fromLTRB(0, 250, 0, 0),
+        child: Material(
+            elevation: 5,
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20.0),
+            child: Form(
+              key: _formKey,
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  height: 700,
+                  child: Column(
+                    children: [
+                      buildMatricNo(),
+                      buildPassword(),
+                      buildForgotPassword(),
+                      buildSignIn(),
+                      buildSignUp()
+                    ],
+                  ))
+              )
+            )));
   }
 
   // Inner Widget
   Widget buildMatricNo() {
     return Container(
-        margin: EdgeInsets.fromLTRB(10, 30, 10, 10),
+        margin: EdgeInsets.fromLTRB(20, 140, 20, 10),
         decoration: BoxDecoration(
-            color: Colors.grey[200], borderRadius: BorderRadius.circular(40.0)),
+            color: Colors.grey[200], borderRadius: BorderRadius.circular(10.0)),
         child: Padding(
           padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
           child: TextFormField(
@@ -141,9 +151,9 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
 
   Widget buildPassword() {
     return Container(
-        margin: EdgeInsets.fromLTRB(10, 5, 10, 10),
+        margin: EdgeInsets.fromLTRB(20, 10, 20, 5),
         decoration: BoxDecoration(
-            color: Colors.grey[200], borderRadius: BorderRadius.circular(40.0)),
+            color: Colors.grey[200], borderRadius: BorderRadius.circular(10.0)),
         child: Padding(
           padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
           child: TextFormField(
@@ -169,89 +179,143 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
   }
 
   Widget buildForgotPassword() {
-    return Container(
-        margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
-        decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(40.0)),
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-          child: RichText(
-              text: TextSpan(
-                  style: TextStyle(
-                      fontFamily: 'Open Sans',
-                      fontWeight: FontWeight.w700,
-                      fontSize: 16,
-                      color: Colors.grey[500]),
-                  children: <TextSpan>[
-                TextSpan(
-                  text: 'Forgot Password?',
-                  recognizer: TapGestureRecognizer()
-                    ..onTap = () {
-                      // print('button is clicked');
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Verification()),
-                      );
-                    },
-                )
-              ])),
-        ));
-  }
-
-  Widget buildSignIn() {
-    return Container(
-        margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-        decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(40.0)),
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              minimumSize: Size(150, 45),
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(30))),
-            ),
-            onPressed: () {
-              if (_formKey.currentState.validate()) {
-                login();
-              } else {
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(SnackBar(content: Text("Error!")));
-              }
-            },
-            child: Text('SIGN IN',
-                style: TextStyle(fontSize: 18, fontFamily: 'Open Sans')),
-          ),
-        ));
-  }
-
-  Widget buildSignUp() {
-    return Container(
-        margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
-        decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(40.0)),
-        child: Padding(
-            padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+    return Align(
+      alignment: Alignment.centerRight,
+      child: Container(
+          margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(40.0)),
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
             child: RichText(
                 text: TextSpan(
                     style: TextStyle(
                         fontFamily: 'Open Sans',
                         fontWeight: FontWeight.w700,
-                        fontSize: 20,
-                        color: Colors.blue),
+                        fontSize: 16,
+                        color: Colors.grey[500]),
                     children: <TextSpan>[
                   TextSpan(
-                    text: 'SIGNUP',
+                    text: 'Forgot Password?',
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
                         // print('button is clicked');
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => Register()),
+                          MaterialPageRoute(
+                              builder: (context) => Verification()),
                         );
                       },
                   )
-                ]))));
+                ])),
+          )),
+    );
+  }
+
+  Widget buildSignIn() {
+    return Container(
+        margin: EdgeInsets.fromLTRB(10, 50, 10, 0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Padding(
+              padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+              child: ElevatedButton(
+                
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.red[600],
+                  minimumSize: Size(600, 45),
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(5))),
+                ),
+                onPressed: () {
+                  if (_formKey.currentState.validate()) {
+                    login();
+                  } else {
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(SnackBar(content: Text("Error!")));
+                  }
+                },
+                child: Text('LOGIN',
+                    style: TextStyle(fontSize: 18, fontFamily: 'Open Sans')),
+              ),
+            )
+          ],
+        ));
+  }
+
+  Widget buildSignUp() {
+    return Align(
+      alignment: Alignment.center,
+      child: Container(
+          margin: EdgeInsets.fromLTRB(10, 120, 10, 0),
+          child: Row(
+            children: [
+              Padding(
+                  padding: EdgeInsets.fromLTRB(50, 0, 10, 0),
+                  child: Text(
+                    'Don\'t Have An Account? ',
+                    style: TextStyle(
+                        fontFamily: 'Open Sans',
+                        fontWeight: FontWeight.w700,
+                        fontSize: 16,
+                        color: Colors.grey),
+                  )),
+              Padding(
+                  padding: EdgeInsets.fromLTRB(0, 0, 50, 0),
+                  child: RichText(
+                      text: TextSpan(
+                          style: TextStyle(
+                              fontFamily: 'Open Sans',
+                              fontWeight: FontWeight.w700,
+                              fontSize: 16,
+                              color: Colors.red[600]),
+                          children: <TextSpan>[
+                        TextSpan(
+                          text: 'Register Now',
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              // print('button is clicked');
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Register()),
+                              );
+                            },
+                        )
+                      ])))
+            ],
+          )),
+    );
+  }
+
+  Widget buildTitle() {
+    return Container(
+      margin: EdgeInsets.fromLTRB(20, 110, 30, 0),
+      child: Column(
+
+        children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text('Login',
+              style: TextStyle(
+                  fontFamily: 'Metropolis',
+                  fontWeight: FontWeight.w800,
+                  color: Colors.white,
+                  fontSize: 52)),),
+          Padding(
+            padding: EdgeInsets.fromLTRB(0, 10, 20, 0),
+            child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text('Enter a beautiful world',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24, 
+                fontFamily: 'Metropolis'))  
+            ),
+          )
+        ],
+    ));
   }
 
   @override
