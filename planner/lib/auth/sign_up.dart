@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:MyUni/auth/sign_up_address.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:flutter/gestures.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -162,47 +163,57 @@ class _RegisterState extends State<Register> with TickerProviderStateMixin {
 
   Widget buildMainContainer() {
     return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [Colors.red, Colors.red[900]]),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [Colors.red[800], Colors.red[300]]),
+        ),
+        child: Stack(
+          children: [
+            buildTitle(),
+            buildCard(),
+          ],
+        ));
+  }
+
+  Widget buildCard() {
+    return Container(
+      margin: EdgeInsets.fromLTRB(0, 250, 0, 0),
+      child: Material(
+        elevation: 5,
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20.0),
+        child: Form(
+          key: _formKey,
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              child: Column(
+                children: [
+                  buildName(),
+                  buildEmail(),
+                  buildPassword(),
+                  buildConfirmPassword(),
+                  buildPhoneNo(),
+                  buildMatricNo(),
+                  buildNextButton(),
+                  buildSignIn(),
+                ],
+              ),
+            )
+          )
+        ),
       ),
-      child: FadeTransition(
-          opacity: animation,
-          child: Center(
-            child: Material(
-              elevation: 5,
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20.0),
-              child: Form(
-                  key: _formKey,
-                  child: Container(
-                    width: 360,
-                    height: 520,
-                    child: Column(
-                      children: [
-                        buildName(),
-                        buildEmail(),
-                        buildPassword(),
-                        buildConfirmPassword(),
-                        buildPhoneNo(),
-                        buildMatricNo(),
-                        buildNextButton()
-                      ],
-                    ),
-                  )),
-            ),
-          )),
     );
   }
 
   // Inner Widget
   Widget buildName() {
     return Container(
-        margin: EdgeInsets.fromLTRB(10, 30, 10, 10),
+        margin: EdgeInsets.fromLTRB(10, 50, 10, 10),
         decoration: BoxDecoration(
-            color: Colors.grey[200], borderRadius: BorderRadius.circular(40.0)),
+            color: Colors.grey[200], borderRadius: BorderRadius.circular(10.0)),
         child: Padding(
           padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
           child: TextFormField(
@@ -229,7 +240,7 @@ class _RegisterState extends State<Register> with TickerProviderStateMixin {
     return Container(
         margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
         decoration: BoxDecoration(
-            color: Colors.grey[200], borderRadius: BorderRadius.circular(40.0)),
+            color: Colors.grey[200], borderRadius: BorderRadius.circular(10.0)),
         child: Padding(
           padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
           child: TextFormField(
@@ -256,7 +267,7 @@ class _RegisterState extends State<Register> with TickerProviderStateMixin {
     return Container(
         margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
         decoration: BoxDecoration(
-            color: Colors.grey[200], borderRadius: BorderRadius.circular(40.0)),
+            color: Colors.grey[200], borderRadius: BorderRadius.circular(10.0)),
         child: Padding(
           padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
           child: TextFormField(
@@ -283,7 +294,7 @@ class _RegisterState extends State<Register> with TickerProviderStateMixin {
     return Container(
         margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
         decoration: BoxDecoration(
-            color: Colors.grey[200], borderRadius: BorderRadius.circular(40.0)),
+            color: Colors.grey[200], borderRadius: BorderRadius.circular(10.0)),
         child: Padding(
           padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
           child: TextFormField(
@@ -312,7 +323,7 @@ class _RegisterState extends State<Register> with TickerProviderStateMixin {
     return Container(
         margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
         decoration: BoxDecoration(
-            color: Colors.grey[200], borderRadius: BorderRadius.circular(40.0)),
+            color: Colors.grey[200], borderRadius: BorderRadius.circular(10.0)),
         child: Padding(
           padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
           child: TextFormField(
@@ -339,7 +350,7 @@ class _RegisterState extends State<Register> with TickerProviderStateMixin {
     return Container(
         margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
         decoration: BoxDecoration(
-            color: Colors.grey[200], borderRadius: BorderRadius.circular(40.0)),
+            color: Colors.grey[200], borderRadius: BorderRadius.circular(10.0)),
         child: Padding(
           padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
           child: TextFormField(
@@ -364,38 +375,119 @@ class _RegisterState extends State<Register> with TickerProviderStateMixin {
 
   Widget buildNextButton() {
     return Container(
-        margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-        decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(40.0)),
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              minimumSize: Size(150, 45),
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(30))),
+      margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: Colors.red[600],
+                minimumSize: Size(150, 45),
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(5))),
+              ),
+              onPressed: () {
+                if (_formKey.currentState.validate()) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => RegisterAddress(
+                            name: name,
+                            email: email,
+                            password: password,
+                            matricNo: matricNo,
+                            phoneNo: phoneNo)),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text("Error!")));
+                }
+              },
+              child: Text('NEXT',
+                  style: TextStyle(fontSize: 18, fontFamily: 'Open Sans')),
             ),
-            onPressed: () {
-              if (_formKey.currentState.validate()) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => RegisterAddress(
-                          name: name,
-                          email: email,
-                          password: password,
-                          matricNo: matricNo,
-                          phoneNo: phoneNo)),
-                );
-              } else {
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(SnackBar(content: Text("Error!")));
-              }
-            },
-            child: Text('NEXT',
-                style: TextStyle(fontSize: 18, fontFamily: 'Open Sans')),
+          )
+        ],
+      )
+    );
+  }
+
+  Widget buildTitle() {
+    return Container(
+      margin: EdgeInsets.fromLTRB(20, 110, 30, 0),
+      child: Column(
+        children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text('Create an Account',
+              style: TextStyle(
+                fontFamily: 'Metropolis',
+                fontWeight: FontWeight.w800,
+                color: Colors.white,
+                fontSize: 42
+              )
+            ),
           ),
-        ));
+          Padding(
+            padding: EdgeInsets.fromLTRB(0, 10, 20, 0),
+            child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text('Enter a beautiful world',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24, 
+                fontFamily: 'Metropolis'))  
+            ),
+          )
+        ],
+    ));
+  }
+
+  Widget buildSignIn() {
+    return Align(
+      alignment: Alignment.center,
+      child: Container(
+          margin: EdgeInsets.fromLTRB(40, 50, 40, 0),
+          child: Row(
+            children: [
+              Padding(
+                  padding: EdgeInsets.fromLTRB(50, 0, 10, 0),
+                  child: Text(
+                    'Already Have an Account? ',
+                    style: TextStyle(
+                        fontFamily: 'Open Sans',
+                        fontWeight: FontWeight.w700,
+                        fontSize: 16,
+                        color: Colors.grey),
+                  )),
+              Padding(
+                  padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                  child: RichText(
+                      text: TextSpan(
+                          style: TextStyle(
+                              fontFamily: 'Open Sans',
+                              fontWeight: FontWeight.w700,
+                              fontSize: 16,
+                              color: Colors.red[600]),
+                          children: <TextSpan>[
+                        TextSpan(
+                          text: 'Login',
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              // print('button is clicked');
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Register()),
+                              );
+                            },
+                        )
+                      ])))
+            ],
+          )),
+    );
   }
 
   // build
