@@ -78,7 +78,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
     }
   }
 
-  Widget newForm() {
+  Widget buildMainContainer() {
     return Container(
       decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -99,128 +99,11 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                         height: 360,
                         child: Column(
                           children: [
-                            // Matric No.
-                            matricNoField(),
-                            Container(
-                                margin: EdgeInsets.fromLTRB(10, 5, 10, 10),
-                                decoration: BoxDecoration(
-                                    color: Colors.grey[200],
-                                    borderRadius: BorderRadius.circular(40.0)),
-                                child: Padding(
-                                  padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
-                                  child: TextFormField(
-                                      style: TextStyle(
-                                          fontFamily: 'Open Sans',
-                                          fontSize: 16),
-                                      decoration: InputDecoration(
-                                          contentPadding:
-                                              EdgeInsets.fromLTRB(0, 0, 0, 0),
-                                          labelText: 'Password',
-                                          icon: Icon(Icons.lock_rounded),
-                                          border: InputBorder.none),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          password = value;
-                                        });
-                                      },
-                                      obscureText: true,
-                                      validator: (val) {
-                                        if (val.isEmpty) {
-                                          return 'Pasword is empty!';
-                                        }
-                                        return null;
-                                      }),
-                                )),
-                            Container(
-                                margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(40.0)),
-                                child: Padding(
-                                  padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                                  child: RichText(
-                                      text: TextSpan(
-                                          style: TextStyle(
-                                              fontFamily: 'Open Sans',
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 16,
-                                              color: Colors.grey[500]),
-                                          children: <TextSpan>[
-                                        TextSpan(
-                                          text: 'Forgot Password?',
-                                          recognizer: TapGestureRecognizer()
-                                            ..onTap = () {
-                                              // print('button is clicked');
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        Verification()),
-                                              );
-                                            },
-                                        )
-                                      ])),
-                                )),
-                            Container(
-                                margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(40.0)),
-                                child: Padding(
-                                  padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      minimumSize: Size(150, 45),
-                                      shape: const RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(30))),
-                                    ),
-                                    onPressed: () {
-                                      if (_formKey.currentState.validate()) {
-                                        login();
-                                      } else {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(
-                                                content: Text("Error!")));
-                                      }
-                                    },
-                                    child: Text('SIGN IN',
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            fontFamily: 'Open Sans')),
-                                  ),
-                                )),
-                            Container(
-                                margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(40.0)),
-                                child: Padding(
-                                    padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                                    child: RichText(
-                                        text: TextSpan(
-                                            style: TextStyle(
-                                                fontFamily: 'Open Sans',
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 20,
-                                                color: Colors.blue),
-                                            children: <TextSpan>[
-                                          TextSpan(
-                                            text: 'SIGNUP',
-                                            recognizer: TapGestureRecognizer()
-                                              ..onTap = () {
-                                                // print('button is clicked');
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          Register()),
-                                                );
-                                              },
-                                          )
-                                        ])))),
-                            // Password
-                            // TextFormField(),
+                            buildMatricNo(),
+                            buildPassword(),
+                            buildForgotPassword(),
+                            buildSignIn(),
+                            buildSignUp()
                           ],
                         )),
                   )))),
@@ -228,38 +111,151 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
   }
 
   // Inner Widget
-  Widget matricNoField() {
+  Widget buildMatricNo() {
     return Container(
-      margin: EdgeInsets.fromLTRB(10, 30, 10, 10),
-      decoration: BoxDecoration(
-          color: Colors.grey[200], borderRadius: BorderRadius.circular(40.0)),
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
-        child: TextFormField(
-          style: TextStyle(fontFamily: 'Open Sans', fontSize: 16),
-          decoration: InputDecoration(
-              contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-              labelText: 'Matric No',
-              icon: Icon(Icons.account_circle),
-              border: InputBorder.none),
-          onChanged: (value) {
-            setState(() {
-              matricNo = value;
-            });
-          },
-          validator: (val) {
-            if (val.isEmpty) {
-              return 'Matric No is empty!';
-            }
-            return null;
-          }
-        ),
-      )
-    );
+        margin: EdgeInsets.fromLTRB(10, 30, 10, 10),
+        decoration: BoxDecoration(
+            color: Colors.grey[200], borderRadius: BorderRadius.circular(40.0)),
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
+          child: TextFormField(
+              style: TextStyle(fontFamily: 'Open Sans', fontSize: 16),
+              decoration: InputDecoration(
+                  contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  labelText: 'Matric No',
+                  icon: Icon(Icons.account_circle),
+                  border: InputBorder.none),
+              onChanged: (value) {
+                setState(() {
+                  matricNo = value;
+                });
+              },
+              validator: (val) {
+                if (val.isEmpty) {
+                  return 'Matric No is empty!';
+                }
+                return null;
+              }),
+        ));
+  }
+
+  Widget buildPassword() {
+    return Container(
+        margin: EdgeInsets.fromLTRB(10, 5, 10, 10),
+        decoration: BoxDecoration(
+            color: Colors.grey[200], borderRadius: BorderRadius.circular(40.0)),
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
+          child: TextFormField(
+              style: TextStyle(fontFamily: 'Open Sans', fontSize: 16),
+              decoration: InputDecoration(
+                  contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  labelText: 'Password',
+                  icon: Icon(Icons.lock_rounded),
+                  border: InputBorder.none),
+              onChanged: (value) {
+                setState(() {
+                  password = value;
+                });
+              },
+              obscureText: true,
+              validator: (val) {
+                if (val.isEmpty) {
+                  return 'Pasword is empty!';
+                }
+                return null;
+              }),
+        ));
+  }
+
+  Widget buildForgotPassword() {
+    return Container(
+        margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(40.0)),
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+          child: RichText(
+              text: TextSpan(
+                  style: TextStyle(
+                      fontFamily: 'Open Sans',
+                      fontWeight: FontWeight.w700,
+                      fontSize: 16,
+                      color: Colors.grey[500]),
+                  children: <TextSpan>[
+                TextSpan(
+                  text: 'Forgot Password?',
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      // print('button is clicked');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Verification()),
+                      );
+                    },
+                )
+              ])),
+        ));
+  }
+
+  Widget buildSignIn() {
+    return Container(
+        margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(40.0)),
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              minimumSize: Size(150, 45),
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(30))),
+            ),
+            onPressed: () {
+              if (_formKey.currentState.validate()) {
+                login();
+              } else {
+                ScaffoldMessenger.of(context)
+                    .showSnackBar(SnackBar(content: Text("Error!")));
+              }
+            },
+            child: Text('SIGN IN',
+                style: TextStyle(fontSize: 18, fontFamily: 'Open Sans')),
+          ),
+        ));
+  }
+
+  Widget buildSignUp() {
+    return Container(
+        margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(40.0)),
+        child: Padding(
+            padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+            child: RichText(
+                text: TextSpan(
+                    style: TextStyle(
+                        fontFamily: 'Open Sans',
+                        fontWeight: FontWeight.w700,
+                        fontSize: 20,
+                        color: Colors.blue),
+                    children: <TextSpan>[
+                  TextSpan(
+                    text: 'SIGNUP',
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        // print('button is clicked');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Register()),
+                        );
+                      },
+                  )
+                ]))));
   }
 
   @override
   Widget build(BuildContext context) {
-    return OKToast(child: Scaffold(body: newForm()));
+    return OKToast(child: Scaffold(body: buildMainContainer()));
   }
 }
