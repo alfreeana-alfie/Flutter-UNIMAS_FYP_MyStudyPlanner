@@ -28,6 +28,6 @@ Future<void> main() async {
   // ));
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: status == true ? MainScreen() : Login(),
+    home: status == false ? MainScreen() : Login(),
   ));
 }

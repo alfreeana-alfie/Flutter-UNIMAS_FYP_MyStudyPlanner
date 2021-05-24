@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter/animation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:MyUni/auth/sign_up.dart';
@@ -16,16 +17,27 @@ class Login extends StatefulWidget {
   _LoginState createState() => _LoginState();
 }
 
-class _LoginState extends State<Login> {
-  String matricNo = "";
-  String password = "";
-
-  final _formKey = GlobalKey<FormState>();
+class _LoginState extends State<Login> with TickerProviderStateMixin {
+  AnimationController controller;
+  Animation<double> animationFadeIn;
 
   User user;
   List userList;
   Map<String, dynamic> userMap;
   Map<String, dynamic> verifyMap;
+  String matricNo = "";
+  String password = "";
+
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    controller =
+        AnimationController(duration: Duration(seconds: 2), vsync: this);
+    animationFadeIn = CurvedAnimation(parent: controller, curve: Curves.easeIn);
+    controller.forward();
+  }
 
   // Methods
   void login() async {
@@ -54,145 +66,200 @@ class _LoginState extends State<Login> {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text("Sign In Successfully!")));
 
-        Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()));
-
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => MainScreen()));
       } else {
         print('Failed to fetch');
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("Incorrect Matric No or Password")));
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Incorrect Matric No or Password")));
       }
     } else {
       throw Exception('Unable to fetch data from the REST API');
     }
   }
 
-  // Widgets
-  Widget form() {
-    return Form(
-      key: _formKey,
-      child: Container(
-          margin: EdgeInsets.fromLTRB(50, 10, 50, 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Matric No',
-                  icon: Icon(Icons.person),
-                ),
-                onChanged: (value) {
-                  setState(() {
-                    matricNo = value;
-                  });
-                },
-                validator: (val) {
-                  if (val.isEmpty) {
-                    return 'Matric No is empty!';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  icon: Icon(Icons.lock),
-                ),
-                onChanged: (value) {
-                  setState(() {
-                    password = value;
-                    // print(password);
-                  });
-                },
-                obscureText: true,
-                validator: (val) {
-                  if (val.isEmpty) {
-                    return 'Password is empty!';
-                  }
-                  return null;
-                },
-              ),
-              Container(
-                  margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                  child: RichText(
-                      text: TextSpan(
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14,
-                              color: Colors.blue[600]),
-                          children: <TextSpan>[
-                        TextSpan(
-                          text: 'Forgot Password?',
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              // print('button is clicked');
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Verification()),
-                              );
-                            },
-                        )
-                      ]))),
-              ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState.validate()) {
-                    login();
-                  } else {
-                    ScaffoldMessenger.of(context)
-                        .showSnackBar(SnackBar(content: Text("Error!")));
-                  }
-                },
-                child: Text('SIGN IN',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    )),
-              ),
-              Container(
-                  margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        RichText(
-                            text: TextSpan(
-                                text: 'Don\'t have an account? ',
-                                style: TextStyle(
-                                    fontSize: 14, color: Colors.grey[600]),
-                                children: <TextSpan>[
-                              TextSpan(
-                                text: 'SIGN UP HERE',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                    color: Colors.blue[600]),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    // print('button is clicked');
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Register()),
-                                    );
-                                  },
-                              )
-                            ]))
-                      ])),
-            ],
-          )),
+  Widget newForm() {
+    return Container(
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [Colors.red, Colors.red[900]])),
+      child: FadeTransition(
+          opacity: animationFadeIn,
+          child: Center(
+              child: Material(
+                  elevation: 5,
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20.0),
+                  child: Form(
+                    key: _formKey,
+                    child: Container(
+                        width: 360,
+                        height: 360,
+                        child: Column(
+                          children: [
+                            // Matric No.
+                            matricNoField(),
+                            Container(
+                                margin: EdgeInsets.fromLTRB(10, 5, 10, 10),
+                                decoration: BoxDecoration(
+                                    color: Colors.grey[200],
+                                    borderRadius: BorderRadius.circular(40.0)),
+                                child: Padding(
+                                  padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
+                                  child: TextFormField(
+                                      style: TextStyle(
+                                          fontFamily: 'Open Sans',
+                                          fontSize: 16),
+                                      decoration: InputDecoration(
+                                          contentPadding:
+                                              EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                          labelText: 'Password',
+                                          icon: Icon(Icons.lock_rounded),
+                                          border: InputBorder.none),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          password = value;
+                                        });
+                                      },
+                                      obscureText: true,
+                                      validator: (val) {
+                                        if (val.isEmpty) {
+                                          return 'Pasword is empty!';
+                                        }
+                                        return null;
+                                      }),
+                                )),
+                            Container(
+                                margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(40.0)),
+                                child: Padding(
+                                  padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                                  child: RichText(
+                                      text: TextSpan(
+                                          style: TextStyle(
+                                              fontFamily: 'Open Sans',
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 16,
+                                              color: Colors.grey[500]),
+                                          children: <TextSpan>[
+                                        TextSpan(
+                                          text: 'Forgot Password?',
+                                          recognizer: TapGestureRecognizer()
+                                            ..onTap = () {
+                                              // print('button is clicked');
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        Verification()),
+                                              );
+                                            },
+                                        )
+                                      ])),
+                                )),
+                            Container(
+                                margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(40.0)),
+                                child: Padding(
+                                  padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      minimumSize: Size(150, 45),
+                                      shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(30))),
+                                    ),
+                                    onPressed: () {
+                                      if (_formKey.currentState.validate()) {
+                                        login();
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                                content: Text("Error!")));
+                                      }
+                                    },
+                                    child: Text('SIGN IN',
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontFamily: 'Open Sans')),
+                                  ),
+                                )),
+                            Container(
+                                margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(40.0)),
+                                child: Padding(
+                                    padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                                    child: RichText(
+                                        text: TextSpan(
+                                            style: TextStyle(
+                                                fontFamily: 'Open Sans',
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 20,
+                                                color: Colors.blue),
+                                            children: <TextSpan>[
+                                          TextSpan(
+                                            text: 'SIGNUP',
+                                            recognizer: TapGestureRecognizer()
+                                              ..onTap = () {
+                                                // print('button is clicked');
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          Register()),
+                                                );
+                                              },
+                                          )
+                                        ])))),
+                            // Password
+                            // TextFormField(),
+                          ],
+                        )),
+                  )))),
+    );
+  }
+
+  // Inner Widget
+  Widget matricNoField() {
+    return Container(
+      margin: EdgeInsets.fromLTRB(10, 30, 10, 10),
+      decoration: BoxDecoration(
+          color: Colors.grey[200], borderRadius: BorderRadius.circular(40.0)),
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
+        child: TextFormField(
+          style: TextStyle(fontFamily: 'Open Sans', fontSize: 16),
+          decoration: InputDecoration(
+              contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+              labelText: 'Matric No',
+              icon: Icon(Icons.account_circle),
+              border: InputBorder.none),
+          onChanged: (value) {
+            setState(() {
+              matricNo = value;
+            });
+          },
+          validator: (val) {
+            if (val.isEmpty) {
+              return 'Matric No is empty!';
+            }
+            return null;
+          }
+        ),
+      )
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return OKToast(
-        child: Scaffold(
-            backgroundColor: Colors.white,
-            appBar: AppBar(
-                backgroundColor: Colors.red[900],
-                elevation: 0.0,
-                title: Center(
-                  child: Text('SIGN IN'),
-                )),
-            body: form()));
+    return OKToast(child: Scaffold(body: newForm()));
   }
 }
