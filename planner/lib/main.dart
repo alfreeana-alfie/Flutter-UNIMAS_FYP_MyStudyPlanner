@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:MyUni/auth/sign_up_address.dart';
 import 'package:MyUni/pages/add_lesson.dart';
 import 'package:MyUni/pages/main_screen.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ Future<void> main() async {
 
   // runApp(MaterialApp(
   //   debugShowCheckedModeBanner: false,
-  //   home: MainScreen(),
+  //   home: Login(),
   // ));
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,

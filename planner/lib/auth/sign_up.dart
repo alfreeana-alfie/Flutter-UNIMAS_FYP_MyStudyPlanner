@@ -1,3 +1,4 @@
+import 'package:MyUni/auth/sign_in.dart';
 import 'package:flutter/material.dart';
 import 'package:MyUni/auth/sign_up_address.dart';
 import 'package:oktoast/oktoast.dart';
@@ -9,6 +10,7 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> with TickerProviderStateMixin {
+
   // Variables
   AnimationController controller;
   Animation<double> animation;
@@ -32,135 +34,7 @@ class _RegisterState extends State<Register> with TickerProviderStateMixin {
     controller.forward();
   }
 
-  // Widget
-  Widget form() {
-    return Form(
-        key: _formKey,
-        child: Container(
-            margin: EdgeInsets.fromLTRB(50, 10, 50, 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Full Name',
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        name = value;
-                      });
-                    },
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Full Name is empty!';
-                      }
-                      return null;
-                    }),
-                TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Email Address',
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        email = value;
-                      });
-                    },
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Email Address is empty!';
-                      }
-                      return null;
-                    }),
-                TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        password = value;
-                      });
-                    },
-                    obscureText: true,
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Password is empty!';
-                      }
-                      return null;
-                    }),
-                TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Confirm Password',
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        passwordConfirm = value;
-                      });
-                    },
-                    obscureText: true,
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Confirm Password is empty!';
-                      } else if (value != password) {
-                        return 'Not match with Password!';
-                      }
-                      return null;
-                    }),
-                TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Phone No',
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        phoneNo = value;
-                      });
-                    },
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Phone No is empty!';
-                      }
-                      return null;
-                    }),
-                TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Matric No',
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        matricNo = value;
-                      });
-                    },
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Matric No is empty!';
-                      }
-                      return null;
-                    }),
-                ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState.validate()) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => RegisterAddress(
-                                name: name,
-                                email: email,
-                                password: password,
-                                matricNo: matricNo,
-                                phoneNo: phoneNo)),
-                      );
-                    } else {
-                      ScaffoldMessenger.of(context)
-                          .showSnackBar(SnackBar(content: Text("Error!")));
-                    }
-                  },
-                  child: Text('NEXT',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                )
-              ],
-            )));
-  }
-
+  // Inner Widget
   Widget buildMainContainer() {
     return Container(
         decoration: BoxDecoration(
@@ -208,7 +82,6 @@ class _RegisterState extends State<Register> with TickerProviderStateMixin {
     );
   }
 
-  // Inner Widget
   Widget buildName() {
     return Container(
         margin: EdgeInsets.fromLTRB(10, 50, 10, 10),
@@ -480,7 +353,7 @@ class _RegisterState extends State<Register> with TickerProviderStateMixin {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Register()),
+                                    builder: (context) => Login()),
                               );
                             },
                         )
