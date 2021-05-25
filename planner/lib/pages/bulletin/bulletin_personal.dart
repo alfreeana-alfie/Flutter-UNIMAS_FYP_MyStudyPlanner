@@ -8,12 +8,12 @@ class Personal extends StatelessWidget {
         id: 1,
         title: 'TMI4013 - DATA MINING',
         description: 'Lecture class will be held on Tue, 14 Nov 2020.',
-        created_at: '10-10-2020'),
+        createdAt: '10-10-2020'),
     News(
         id: 2,
         title: 'TMI4014 - DATA MINING',
         description: 'Lecture class will be held on Tue, 14 Nov 2020.',
-        created_at: '10-10-2020')
+        createdAt: '10-10-2020')
   ];
 
   @override
@@ -50,7 +50,7 @@ class Personal extends StatelessWidget {
                       ),
                       Expanded(
                         flex: 1,
-                        child: Text(announcements[index].created_at)
+                        child: Text(announcements[index].createdAt)
                       )
                     ],
                   ),

@@ -3,7 +3,7 @@ class News {
   String title;
   String description;
   String postedBy;
-  int type;
+  String type;
   String createdAt;
   String updatedAt;
 
@@ -22,7 +22,7 @@ class News {
       title: map['title'] as String,
       description: map['description'] as String,
       postedBy: map['posted_by'] as String,
-      type: map['type'] as int,
+      type: map['type'] as String,
       createdAt: map['created_at'] as String,
       updatedAt: map['updated_at'] as String
     );
