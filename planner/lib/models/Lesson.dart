@@ -48,5 +48,4 @@ class Lesson {
         day = json['lesson']['day'],
         startTime = json['lesson']['startTime'],
         endTime = json['lesson']['endTime'];
-
 }

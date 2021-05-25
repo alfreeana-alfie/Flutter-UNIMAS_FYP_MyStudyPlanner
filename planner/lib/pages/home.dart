@@ -12,6 +12,7 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  // Variables
   int _selectedIndex = 0;
   int userID;
   String name;

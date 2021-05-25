@@ -14,12 +14,12 @@ class _GeneralState extends State<General> {
         id: 1,
         title: 'TMI4013 - DATA MINING',
         description: 'Lecture class will be held on Tue, 14 Nov 2020.',
-        created_at: '10-10-2020'),
+        createdAt: '10-10-2020'),
     News(
         id: 2,
         title: 'TMI4014 - DATA MINING',
         description: 'Lecture class will be held on Tue, 14 Nov 2020.',
-        created_at: '10-10-2020')
+        createdAt: '10-10-2020')
   ];
 
   @override
@@ -48,7 +48,7 @@ class _GeneralState extends State<General> {
                     children: [
                       Text(announcements[index].title),
                       Text(announcements[index].description),
-                      Text(announcements[index].created_at),
+                      Text(announcements[index].createdAt),
                     ],
                   ),
                 ),

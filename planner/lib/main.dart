@@ -1,6 +1,5 @@
 import 'dart:io';
-import 'package:MyUni/auth/forgot_password.dart';
-import 'package:MyUni/auth/verify_email.dart';
+import 'package:MyUni/auth/sign_in.dart';
 import 'package:MyUni/pages/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,6 +27,6 @@ Future<void> main() async {
   // ));
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: status == false ? MainScreen() : ForgotPassword(),
+    home: status == true ? MainScreen() : Login(),
   ));
 }

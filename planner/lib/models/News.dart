@@ -2,36 +2,38 @@ class News {
   int id;
   String title;
   String description;
-  String posted_by;
-  String type;
-  String created_at;
-  String updated_at;
+  String postedBy;
+  int type;
+  String createdAt;
+  String updatedAt;
 
   News(
       {this.id,
       this.title,
       this.description,
-      this.posted_by,
+      this.postedBy,
       this.type,
-      this.created_at,
-      this.updated_at});
+      this.createdAt,
+      this.updatedAt});
+
+  factory News.fromMap(Map<String, dynamic> map) {
+    return News(
+      id: map['id'] as int,
+      title: map['title'] as String,
+      description: map['description'] as String,
+      postedBy: map['posted_by'] as String,
+      type: map['type'] as int,
+      createdAt: map['created_at'] as String,
+      updatedAt: map['updated_at'] as String
+    );
+  }
 
   News.fromJSON(Map<String, dynamic> json)
-      : id = json['id'],
-        title = json['title'],
-        description = json['description'],
-        posted_by = json['posted_by'],
-        type = json['type'],
-        created_at = json['created_at'],
-        updated_at = json['updated_at'];
-
-  Map<String, dynamic> toJSON() => {
-        'id': id,
-        'title': title,
-        'description': description,
-        'posted_by': posted_by,
-        'type': type,
-        'created_at': created_at,
-        'updated_at': updated_at
-      };
+      : id = json['news']['id'],
+        title = json['news']['title'],
+        description = json['news']['description'],
+        postedBy = json['news']['posted_by'],
+        type = json['news']['type'],
+        createdAt = json['news']['created_at'],
+        updatedAt = json['news']['updated_at'];
 }
