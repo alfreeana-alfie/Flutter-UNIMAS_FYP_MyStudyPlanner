@@ -84,7 +84,7 @@ class _RegisterState extends State<Register> with TickerProviderStateMixin {
 
   Widget buildName() {
     return Container(
-        margin: EdgeInsets.fromLTRB(10, 50, 10, 10),
+        margin: EdgeInsets.fromLTRB(20, 50, 20, 10),
         decoration: BoxDecoration(
             color: Colors.grey[200], borderRadius: BorderRadius.circular(10.0)),
         child: Padding(
@@ -111,7 +111,7 @@ class _RegisterState extends State<Register> with TickerProviderStateMixin {
 
   Widget buildEmail() {
     return Container(
-        margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
+        margin: EdgeInsets.fromLTRB(20, 0, 20, 10),
         decoration: BoxDecoration(
             color: Colors.grey[200], borderRadius: BorderRadius.circular(10.0)),
         child: Padding(
@@ -138,7 +138,7 @@ class _RegisterState extends State<Register> with TickerProviderStateMixin {
 
   Widget buildPassword() {
     return Container(
-        margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
+        margin: EdgeInsets.fromLTRB(20, 0, 20, 10),
         decoration: BoxDecoration(
             color: Colors.grey[200], borderRadius: BorderRadius.circular(10.0)),
         child: Padding(
@@ -165,7 +165,7 @@ class _RegisterState extends State<Register> with TickerProviderStateMixin {
 
   Widget buildConfirmPassword() {
     return Container(
-        margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
+        margin: EdgeInsets.fromLTRB(20, 0, 20, 10),
         decoration: BoxDecoration(
             color: Colors.grey[200], borderRadius: BorderRadius.circular(10.0)),
         child: Padding(
@@ -194,7 +194,7 @@ class _RegisterState extends State<Register> with TickerProviderStateMixin {
 
   Widget buildPhoneNo() {
     return Container(
-        margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
+        margin: EdgeInsets.fromLTRB(20, 0, 20, 10),
         decoration: BoxDecoration(
             color: Colors.grey[200], borderRadius: BorderRadius.circular(10.0)),
         child: Padding(
@@ -221,7 +221,7 @@ class _RegisterState extends State<Register> with TickerProviderStateMixin {
 
   Widget buildMatricNo() {
     return Container(
-        margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
+        margin: EdgeInsets.fromLTRB(20, 0, 20, 10),
         decoration: BoxDecoration(
             color: Colors.grey[200], borderRadius: BorderRadius.circular(10.0)),
         child: Padding(
@@ -248,7 +248,7 @@ class _RegisterState extends State<Register> with TickerProviderStateMixin {
 
   Widget buildNextButton() {
     return Container(
-      margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
+      margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

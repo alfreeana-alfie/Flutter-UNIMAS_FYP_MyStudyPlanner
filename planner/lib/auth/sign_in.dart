@@ -78,6 +78,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
     }
   }
 
+  // Inner Widget
   Widget buildMainContainer() {
     return Container(
       decoration: BoxDecoration(
@@ -120,7 +121,36 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
             )));
   }
 
-  // Inner Widget
+  Widget buildTitle() {
+    return Container(
+      margin: EdgeInsets.fromLTRB(20, 110, 30, 0),
+      child: Column(
+
+        children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text('Login',
+              style: TextStyle(
+                  fontFamily: 'Metropolis',
+                  fontWeight: FontWeight.w800,
+                  color: Colors.white,
+                  fontSize: 52)),),
+          Padding(
+            padding: EdgeInsets.fromLTRB(0, 10, 20, 0),
+            child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text('Enter a beautiful world',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24, 
+                fontFamily: 'Metropolis'))  
+            ),
+          )
+        ],
+    ));
+  }
+
+  
   Widget buildMatricNo() {
     return Container(
         margin: EdgeInsets.fromLTRB(20, 140, 20, 10),
@@ -289,34 +319,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
     );
   }
 
-  Widget buildTitle() {
-    return Container(
-      margin: EdgeInsets.fromLTRB(20, 110, 30, 0),
-      child: Column(
-
-        children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text('Login',
-              style: TextStyle(
-                  fontFamily: 'Metropolis',
-                  fontWeight: FontWeight.w800,
-                  color: Colors.white,
-                  fontSize: 52)),),
-          Padding(
-            padding: EdgeInsets.fromLTRB(0, 10, 20, 0),
-            child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text('Enter a beautiful world',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24, 
-                fontFamily: 'Metropolis'))  
-            ),
-          )
-        ],
-    ));
-  }
+  
 
   @override
   Widget build(BuildContext context) {

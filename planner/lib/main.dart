@@ -1,9 +1,8 @@
 import 'dart:io';
-import 'package:MyUni/auth/sign_up_address.dart';
-import 'package:MyUni/pages/add_lesson.dart';
+import 'package:MyUni/auth/forgot_password.dart';
+import 'package:MyUni/auth/verify_email.dart';
 import 'package:MyUni/pages/main_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:MyUni/auth/sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MyHttpOverrides extends HttpOverrides {
@@ -29,6 +28,6 @@ Future<void> main() async {
   // ));
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: status == false ? MainScreen() : Login(),
+    home: status == false ? MainScreen() : ForgotPassword(),
   ));
 }
