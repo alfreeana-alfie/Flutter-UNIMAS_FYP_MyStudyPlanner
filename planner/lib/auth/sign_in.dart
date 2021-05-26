@@ -282,7 +282,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
           child: Row(
             children: [
               Padding(
-                  padding: EdgeInsets.fromLTRB(50, 0, 10, 0),
+                  padding: EdgeInsets.fromLTRB(40, 0, 10, 0),
                   child: Text(
                     'Don\'t Have An Account? ',
                     style: TextStyle(
