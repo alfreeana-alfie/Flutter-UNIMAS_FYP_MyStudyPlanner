@@ -27,6 +27,6 @@ Future<void> main() async {
   // ));
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: status == false ? MainScreen() : Login(),
+    home: status == true ? MainScreen() : Login(),
   ));
 }

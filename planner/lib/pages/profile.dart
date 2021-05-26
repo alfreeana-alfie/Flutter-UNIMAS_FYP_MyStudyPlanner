@@ -24,12 +24,14 @@ class _ProfileState extends State<Profile> {
 
   Future getData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(this.mounted) {
+      setState(() {
+        userID = prefs.getInt('userID');
 
-    setState(() {
-      userID = prefs.getInt('userID');
-
-      getDataAPI();
-    });
+        getDataAPI();
+      });
+    }
+    
   }
 
   Future getDataAPI() async {
@@ -47,13 +49,16 @@ class _ProfileState extends State<Profile> {
         userMap = jsonDecode(response.body);
         var userData = User.fromJSON(userMap);
 
-        setState(() {
-          name = userData.name;
-          email = userData.email;
-          // phoneNo = userData.phone_no;
-          matricNo = userData.matric_no;
-          imageURL = userData.image;
-        });
+        if(this.mounted) {
+          setState(() {
+            name = userData.name;
+            email = userData.email;
+            // phoneNo = userData.phone_no;
+            matricNo = userData.matric_no;
+            imageURL = userData.image;
+          });
+        }
+        
       } else {
         print('FAILED');
       }

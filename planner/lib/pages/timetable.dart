@@ -19,12 +19,13 @@ class _TimetableState extends State<Timetable> {
 
   Future getSharedData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(this.mounted){
+      setState(() {
+        var userID = prefs.getInt("userID");
 
-    setState(() {
-      var userID = prefs.getInt("userID");
-
-      getLessonList(userID.toString());
-    });
+        getLessonList(userID.toString());
+      });
+    }
   }
 
   Future getLessonList(String userIDStr) async {

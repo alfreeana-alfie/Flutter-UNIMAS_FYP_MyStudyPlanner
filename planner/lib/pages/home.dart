@@ -1,8 +1,14 @@
+import 'dart:ui';
+import 'dart:convert';
+
+import 'package:MyUni/auth/sign_up.dart';
+import 'package:MyUni/pages/bulletin/bulletin.dart';
+import 'package:MyUni/pages/subject.dart';
 import 'package:avatar_letter/avatar_letter.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 import 'package:MyUni/models/Verify.dart';
 import 'package:MyUni/models/Lesson.dart';
@@ -57,9 +63,11 @@ class _HomepageState extends State<Homepage> {
         lessonList = jsonDecode(response.body);
         for (var lessonMap in lessonList['lesson']) {
           final lessons = Lesson.fromMap(lessonMap);
-          setState(() {
-            data.add(lessons);
-          });
+          if(this.mounted) {
+            setState(() {
+              data.add(lessons);
+            });
+          }
         }
       } else {
         print('Failed to fetch!');
@@ -84,9 +92,11 @@ class _HomepageState extends State<Homepage> {
         newsList = jsonDecode(response.body);
         for (var newsMap in newsList['news']) {
           final news = News.fromMap(newsMap);
-          setState(() {
-            dataNewsList.add(news);
-          });
+          if(this.mounted) {
+            setState(() {
+              dataNewsList.add(news);
+            });
+          }
         }
       } else {
         print('Failed to fetch!');
@@ -105,13 +115,15 @@ class _HomepageState extends State<Homepage> {
   Widget buildMainContainer() {
     return Container(
         decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("images/white02.jpeg"), fit: BoxFit.cover),
             gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [Colors.grey[200], Colors.white])),
-        child: buildSecondaryContent()
-
-    );
+        child: Stack(
+          children: [buildTitle(), buildLessonList(), buildSecondaryContent()],
+        ));
   }
 
   Widget buildTitle() {
@@ -164,56 +176,93 @@ class _HomepageState extends State<Homepage> {
 
   Widget buildSecondaryContent() {
     return Container(
-      margin: EdgeInsets.fromLTRB(0, 250, 0, 0),
-      child: Material(
-        elevation: 2,
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20.0),
-        child: buildNewsList(),
-      )
-    );
+        margin: EdgeInsets.fromLTRB(0, 350, 0, 0),
+        child: Material(
+          elevation: 3,
+          color: Colors.white,
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+          // borderRadius: BorderRadius.horizontal(left: Radius.circular(20), right:Radius.circular(20)),
+          child: buildNewsList(),
+        ));
   }
 
   Widget buildLessonContent(Lesson) {
     return Container(
         child: Column(children: [
       AvatarLetter(
-          size: 85,
+          size: 75,
           backgroundColor: Colors.red,
           textColor: Colors.white,
-          fontSize: 48,
+          fontSize: 40,
           upperCase: true,
           numberLetters: 2,
           letterType: LetterType.Circular,
           text: Lesson.name),
       Padding(
-          padding: EdgeInsets.only(top: 2),
-          child: Text(Lesson.name,
-              style: TextStyle(
-                  fontFamily: 'Open Sans',
-                  fontSize: 24,
-                  fontWeight: FontWeight.w700)))
+        padding: EdgeInsets.only(top: 2),
+        child: SizedBox(
+          width: 50,
+          child: Center(
+              child: Text(Lesson.name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  softWrap: false,
+                  style: GoogleFonts.openSans(
+                      textStyle: TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.w500)))),
+        ),
+      )
     ]));
   }
 
   Widget buildLessonList() {
     return Container(
-        margin: EdgeInsets.fromLTRB(15, 10, 15, 10),
+        margin: EdgeInsets.fromLTRB(20, 180, 15, 10),
         child: Stack(
           children: [
-            Align(
-              alignment: Alignment.topLeft,
-              child: Text('Subject List',
-                  style: TextStyle(
-                      fontFamily: 'Open Sans',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w800,
-                      color: Colors.grey[700])),
+            Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text('Subject List',
+                          style: GoogleFonts.nunito(
+                              textStyle: TextStyle(
+                                  fontSize: 22, fontWeight: FontWeight.w900))),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Subject()));
+                      },
+                      child: Text(
+                        'See All',
+                        style: TextStyle(
+                            color: Colors.red[900],
+                            fontWeight: FontWeight.bold),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        primary: Colors.red[100],
+                        minimumSize: Size(80, 25),
+                        shape: const RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(15))),
+                      ),
+                    )
+                  ],
+                  
+                ),
+              ],
             ),
             Align(
               alignment: Alignment.centerLeft,
               child: Padding(
-                padding: EdgeInsets.only(top: 30.0),
+                padding: EdgeInsets.only(top: 40.0),
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
@@ -228,179 +277,130 @@ class _HomepageState extends State<Homepage> {
   }
 
   Widget buildNewsContent(News) {
-    return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween, 
-        children: [
-        AvatarLetter(
-            size: 50,
-            backgroundColor: Colors.green,
-            textColor: Colors.white,
-            fontSize: 24,
-            upperCase: true,
-            numberLetters: 2,
-            letterType: LetterType.Rectangle,
-            text: News.title),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox(
-              width: 250,
-              child: Text(
-                News.title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  softWrap: false,
-                  style: TextStyle(
-                    fontFamily: 'Open Sans',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w800
-                    )
-                  ),
-            ),
-            SizedBox(
-              width: 250,
-              child: Text(
-                News.description,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  softWrap: false,
-                  style: TextStyle(
-                    fontFamily: 'Open Sans',
-                    fontSize: 12,
-                    )
-                  ),
-            ),
-          ],
-        ),
-        IconButton(
-          onPressed: () {
-            print('Annnouncement clicked');
-          },
-          icon: Icon(Icons.arrow_right),
-        ),
-      ]
-    );
+    return Padding(
+        padding: EdgeInsets.fromLTRB(5, 0, 5, 20),
+        child:
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          AvatarLetter(
+              size: 50,
+              backgroundColor: Colors.green,
+              textColor: Colors.white,
+              fontSize: 24,
+              upperCase: true,
+              numberLetters: 2,
+              letterType: LetterType.Rectangle,
+              text: News.title),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: 250,
+                child: Text(News.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    softWrap: false,
+                    style: GoogleFonts.openSans(
+                        textStyle: TextStyle(
+                            fontSize: 17, fontWeight: FontWeight.w900))),
+              ),
+              SizedBox(
+                width: 250,
+                child: Text(News.description,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    softWrap: false,
+                    style: GoogleFonts.openSans(
+                        textStyle: TextStyle(
+                      fontSize: 12,
+                    ))),
+              )
+            ],
+          ),
+          IconButton(
+            onPressed: () {
+              print('Annnouncement clicked');
+            },
+            icon: Icon(Icons.arrow_right),
+          ),
+        ]));
   }
 
   Widget buildNewsList() {
     return Container(
         margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
-        child: ListView(
-          padding: EdgeInsets.all(0.0),
-          children: dataNewsList.map((p) {
-            return buildNewsContent(p);
-          }).toList(),
-        )
-    );
-  }
+        child: Stack(
+          children: [
+            Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Column(
+                      children: [
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Padding(
+                            padding: EdgeInsets.fromLTRB(10, 15, 10, 5),
+                            child: Text('Announcement',
+                                style: GoogleFonts.nunito(
+                                    textStyle: TextStyle(
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w900))),
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Container(
+                              margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
+                              width: 100,
+                              height: 7,
+                              decoration: BoxDecoration(
+                                  color: Colors.red[400],
+                                  borderRadius: BorderRadius.circular(20.0))),
+                        ),
 
-  Widget announcementOverview(News) {
-    return Padding(
-      padding: EdgeInsets.all(0.0),
-      child: Padding(
-          padding: EdgeInsets.fromLTRB(10, 5, 10, 0),
-          child: Column(children: [
-            Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-              Column(children: [
-                Text(News.title),
-                Text(News.description),
-                Text(News.createdAt)
-              ]),
-              IconButton(
-                onPressed: () {
-                  print('Annnouncement clicked');
-                },
-                icon: Icon(Icons.arrow_right),
-              ),
-            ]),
+                        
+                      ],
+                    ),
+                    ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Bulletin()));
+                          },
+                          child: Text(
+                            'See All',
+                            style: TextStyle(
+                                color: Colors.red[900],
+                                fontWeight: FontWeight.bold),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            elevation: 0,
+                            primary: Colors.red[100],
+                            minimumSize: Size(80, 25),
+                            shape: const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15))),
+                          ),
+                        )
+                  ],
+                ),
+              ],
+            ),
             Container(
-                child: Divider(
-              color: Colors.black,
-              height: 10,
-            )),
-          ])),
-    );
-  }
-
-  Widget userOverview() {
-    return Padding(
-        padding: EdgeInsets.fromLTRB(10, 30, 10, 10),
-        child: ListTile(
-          leading: CircleAvatar(
-            radius: 40,
-            backgroundImage: NetworkImage('${imageURL}'),
-          ),
-          title: Text('${name}'),
-          subtitle: Text('${matric_no}'),
+              margin: EdgeInsets.fromLTRB(10, 70, 10, 5),
+              child: ListView(
+                padding: EdgeInsets.only(top: 10.0),
+                children: dataNewsList.map((p) {
+                  return buildNewsContent(p);
+                }).toList(),
+              )
+            ),
+          ],
         ));
   }
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //       appBar: AppBar(
-  //           backgroundColor: Colors.red[900],
-  //           elevation: 0.0,
-  //           title: Center(
-  //             child: Text('Homepage'),
-  //           )),
-  //       body: Container(
-  //         margin: EdgeInsets.fromLTRB(15, 10, 15, 10),
-  //         child: Column(children: [
-  //           Expanded(
-  //             flex: 1,
-  //             child: Container(child: userOverview()),
-  //           ),
-  //           Expanded(
-  //             flex: 1,
-  //             child: Container(
-  //               margin: EdgeInsets.fromLTRB(15, 10, 15, 10),
-  //               child: Stack(
-  //               children: [
-  //                 Align(
-  //                   alignment: Alignment.topLeft,
-  //                   child: Text('Subject(s):',
-  //                   style: TextStyle(
-  //                     fontFamily: 'Open Sans',
-  //                     fontSize: 16,
-  //                     fontWeight: FontWeight.w800,
-  //                     letterSpacing: 1.0,
-  //                     color: Colors.grey[700]
-  //                   )),
-  //                 ),
-  //                 Align(
-  //                   alignment: Alignment.centerLeft,
-  //                   child: Padding(
-  //                     padding: EdgeInsets.only(top: 30.0),
-  //                     child: ListView(
-  //                       scrollDirection: Axis.horizontal,
-  //                       shrinkWrap: true,
-  //                       children: data.map((p) {
-  //                         return buildLessonContent(p);
-  //                       }).toList(),
-  //                     ),
-  //                   )
-  //                 ),
-  //               ]
-  //             )
-  //             )
-  //           ),
-  //           Expanded(
-  //               flex: 3,
-  //               child: Card(
-  //                   child: Column(children: [
-  //                 ListTile(tileColor: Colors.red, title: Text('Announcement')),
-  //                 ListView(
-
-  //                     shrinkWrap: true,
-  //                     children: dataNewsList.map((p) {
-  //                       return announcementOverview(p);
-  //                     }).toList()),
-  //               ]))),
-  //         ]),
-  //       ));
-  // }
 
   @override
   Widget build(BuildContext context) {
