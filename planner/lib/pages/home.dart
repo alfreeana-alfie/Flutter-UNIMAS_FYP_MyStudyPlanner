@@ -63,7 +63,7 @@ class _HomepageState extends State<Homepage> {
         lessonList = jsonDecode(response.body);
         for (var lessonMap in lessonList['lesson']) {
           final lessons = Lesson.fromMap(lessonMap);
-          if(this.mounted) {
+          if (this.mounted) {
             setState(() {
               data.add(lessons);
             });
@@ -92,7 +92,7 @@ class _HomepageState extends State<Homepage> {
         newsList = jsonDecode(response.body);
         for (var newsMap in newsList['news']) {
           final news = News.fromMap(newsMap);
-          if(this.mounted) {
+          if (this.mounted) {
             setState(() {
               dataNewsList.add(news);
             });
@@ -180,18 +180,23 @@ class _HomepageState extends State<Homepage> {
         child: Material(
           elevation: 3,
           color: Colors.white,
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30), topRight: Radius.circular(30)),
           // borderRadius: BorderRadius.horizontal(left: Radius.circular(20), right:Radius.circular(20)),
           child: buildNewsList(),
         ));
   }
 
   Widget buildLessonContent(Lesson) {
+    String colorString = Lesson.color;
+    String valueString = colorString.split('(0x')[1].split(')')[0];
+    int value = int.parse(valueString, radix: 16);
+    Color lessonColor = new Color(value);
     return Container(
         child: Column(children: [
       AvatarLetter(
           size: 75,
-          backgroundColor: Colors.red,
+          backgroundColor:lessonColor,
           textColor: Colors.white,
           fontSize: 40,
           upperCase: true,
@@ -209,7 +214,7 @@ class _HomepageState extends State<Homepage> {
                   softWrap: false,
                   style: GoogleFonts.openSans(
                       textStyle: TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.w500)))),
+                          fontSize: 14, fontWeight: FontWeight.w500)))),
         ),
       )
     ]));
@@ -234,10 +239,8 @@ class _HomepageState extends State<Homepage> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Subject()));
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Subject()));
                       },
                       child: Text(
                         'See All',
@@ -255,14 +258,13 @@ class _HomepageState extends State<Homepage> {
                       ),
                     )
                   ],
-                  
                 ),
               ],
             ),
             Align(
               alignment: Alignment.centerLeft,
               child: Padding(
-                padding: EdgeInsets.only(top: 40.0),
+                padding: EdgeInsets.only(top: 50.0),
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
@@ -283,8 +285,8 @@ class _HomepageState extends State<Homepage> {
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           AvatarLetter(
               size: 50,
-              backgroundColor: Colors.green,
-              textColor: Colors.white,
+              backgroundColor: Colors.blue[100],
+              textColor: Colors.blue[300],
               fontSize: 24,
               upperCase: true,
               numberLetters: 2,
@@ -359,45 +361,42 @@ class _HomepageState extends State<Homepage> {
                                   color: Colors.red[400],
                                   borderRadius: BorderRadius.circular(20.0))),
                         ),
-
-                        
                       ],
                     ),
                     ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Bulletin()));
-                          },
-                          child: Text(
-                            'See All',
-                            style: TextStyle(
-                                color: Colors.red[900],
-                                fontWeight: FontWeight.bold),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            elevation: 0,
-                            primary: Colors.red[100],
-                            minimumSize: Size(80, 25),
-                            shape: const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15))),
-                          ),
-                        )
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Bulletin()));
+                      },
+                      child: Text(
+                        'See All',
+                        style: TextStyle(
+                            color: Colors.red[900],
+                            fontWeight: FontWeight.bold),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        primary: Colors.red[100],
+                        minimumSize: Size(80, 25),
+                        shape: const RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(15))),
+                      ),
+                    )
                   ],
                 ),
               ],
             ),
             Container(
-              margin: EdgeInsets.fromLTRB(10, 70, 10, 5),
-              child: ListView(
-                padding: EdgeInsets.only(top: 10.0),
-                children: dataNewsList.map((p) {
-                  return buildNewsContent(p);
-                }).toList(),
-              )
-            ),
+                margin: EdgeInsets.fromLTRB(10, 70, 10, 5),
+                child: ListView(
+                  padding: EdgeInsets.only(top: 10.0),
+                  children: dataNewsList.map((p) {
+                    return buildNewsContent(p);
+                  }).toList(),
+                )),
           ],
         ));
   }
