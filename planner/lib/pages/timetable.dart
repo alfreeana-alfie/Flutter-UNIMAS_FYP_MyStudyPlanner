@@ -88,7 +88,7 @@ class _TimetableState extends State<Timetable> {
                   margin: EdgeInsets.fromLTRB(10, 70, 10, 0),
                   child: Ink(
                     decoration: const ShapeDecoration(
-                      color: Coor
+                      color: 
                     ),
                   )
                 ),
