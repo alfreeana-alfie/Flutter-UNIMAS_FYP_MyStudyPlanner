@@ -1,7 +1,6 @@
 import 'dart:ui';
 import 'dart:convert';
 
-import 'package:MyUni/auth/sign_up.dart';
 import 'package:MyUni/pages/bulletin/bulletin.dart';
 import 'package:MyUni/pages/subject.dart';
 import 'package:avatar_letter/avatar_letter.dart';

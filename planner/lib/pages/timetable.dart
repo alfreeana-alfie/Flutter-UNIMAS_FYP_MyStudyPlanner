@@ -1,5 +1,7 @@
 import 'package:MyUni/pages/add_lesson.dart';
+import 'package:MyUni/pages/subject.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -14,12 +16,14 @@ class Timetable extends StatefulWidget {
 }
 
 class _TimetableState extends State<Timetable> {
+  // Variables
   Map<String, dynamic> verifyMap;
   Map<String, dynamic> lessonList;
 
+  // Methods
   Future getSharedData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(this.mounted){
+    if (this.mounted) {
       setState(() {
         var userID = prefs.getInt("userID");
 
@@ -51,34 +55,82 @@ class _TimetableState extends State<Timetable> {
     }
   }
 
-  
-
   @override
   void initState() {
     super.initState();
     getSharedData();
   }
 
+  // Widgets
+  Widget buildMainContainer() {
+    return Container(
+        decoration: BoxDecoration(color: Colors.white),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  margin: EdgeInsets.fromLTRB(10, 70, 0, 0),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Text('Timetable',
+                        style: GoogleFonts.nunito(
+                            textStyle: TextStyle(
+                                fontSize: 42,
+                                fontWeight: FontWeight.w900,
+                                color: Colors.blue[800]))),
+                  ),
+                ),
+
+                Container(
+                  margin: EdgeInsets.fromLTRB(10, 70, 10, 0),
+                  child: Ink(
+                    decoration: const ShapeDecoration(
+                      color: Coor
+                    ),
+                  )
+                ),
+              ],
+            ),
+            Expanded(
+              flex: 2,
+              child: Container(
+                margin: EdgeInsets.fromLTRB(7, 0, 7, 5),
+                decoration: BoxDecoration(
+                    color: Colors.blue[100],
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(30),
+                        topRight: Radius.circular(30))),
+                child: buildCalendar(),
+              ),
+            ),
+          ],
+        ));
+  }
+
+  Widget buildCalendar() {
+    return SfCalendar(
+      view: CalendarView.week,
+      showNavigationArrow: true,
+      showDatePickerButton: true,
+
+      showCurrentTimeIndicator: true,
+      onTap: (calendarLongPressDetails) {
+        print(calendarLongPressDetails.appointments);
+      },
+      firstDayOfWeek: 1,
+      monthViewSettings: MonthViewSettings(showAgenda: true),
+      timeSlotViewSettings: TimeSlotViewSettings(
+          startHour: 7, endHour: 24, timeIntervalHeight: 60),
+      dataSource: MeetingDataSource(getAppointments()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar:
-            AppBar(backgroundColor: Colors.blue[900], title: Text('Timetable')),
-        body: SfCalendar(
-          view: CalendarView.week,
-          firstDayOfWeek: 1,
-          monthViewSettings: MonthViewSettings(showAgenda: true),
-          timeSlotViewSettings: TimeSlotViewSettings(
-              startHour: 8, endHour: 23, timeIntervalHeight: 60),
-          dataSource: MeetingDataSource(getAppointments()),
-        ),
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
-          onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => AddLesson()));
-          },
-        ));
+    return Scaffold(body: buildMainContainer());
   }
 }
 
@@ -90,7 +142,6 @@ List<Lesson> _parseLesson(Map<String, dynamic> map) {
   }
   return lesson;
 }
-
 
 List<Appointment> getAppointments() {
   List<Appointment> meetings = [];
