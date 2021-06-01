@@ -78,7 +78,6 @@ class _AddLessonState extends State<AddLesson> {
       )
     );
   }
-
   Widget buildMainDetails(){
     return Container(
       margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
@@ -340,6 +339,8 @@ class _AddLessonState extends State<AddLesson> {
       },
     );
   }
+
+  
 
   @override
   Widget build(BuildContext context) {

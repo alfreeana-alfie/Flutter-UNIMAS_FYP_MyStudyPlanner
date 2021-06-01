@@ -27,9 +27,6 @@ class _AddLessonState extends State<AddLesson> {
 
   final _formKey = GlobalKey<FormState>();
 
-  Color _tempShadeColor;
-  Color _shadeColor = Colors.blue[800];
-
   // Methods
   void saveData() async {
     print('$name, $abbr, $color, $type, $teacher, $place, $startTime, $endTime');
@@ -61,7 +58,124 @@ class _AddLessonState extends State<AddLesson> {
     }
   }
 
-  // Widget
+  Widget textField(String title, String data) {
+    return TextFormField(
+        decoration: InputDecoration(
+          labelText: '$title',
+        ),
+        onChanged: (value) {
+          setState(() {
+            data = value;
+          });
+        },
+        validator: (val) {
+          if (val.isEmpty) {
+            return '$title is empty!';
+          }
+          return null;
+        });
+  }
+
+  Color _tempShadeColor;
+  Color _shadeColor = Colors.blue[800];
+
+  void _openDialog(String title, Widget content) {
+    showDialog(
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          contentPadding: const EdgeInsets.all(6.0),
+          title: Text(title),
+          content: content,
+          actions: [
+            TextButton(
+              child: Text('CANCEL'),
+              onPressed: Navigator.of(context).pop,
+            ),
+            TextButton(
+              child: Text('SUBMIT'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                // setState(() => _shadeColor = _tempShadeColor
+                setState(() {
+                  _shadeColor = _tempShadeColor;
+                  color = _tempShadeColor.toString();
+                });
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _openColorPicker() async {
+    _openDialog(
+      "Color picker",
+      MaterialColorPicker(
+        selectedColor: _shadeColor,
+        onColorChange: (color) => setState(() => _tempShadeColor = color),
+        onBack: () => print("Back button pressed"),
+      ),
+    );
+  }
+
+  Widget dayPicker() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+        child: SelectWeekDays(
+          border: false,
+          boxDecoration: BoxDecoration(
+            color: _shadeColor
+          ),
+          onSelect: (values) {
+            // <== Callback to handle the selected days
+            day = values[0];
+            print(values[0]);
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget timeRangePicker() {
+    return TimeRange(
+      fromTitle: Text(
+        'From',
+        style: GoogleFonts.openSans(
+          fontSize: 14,
+          color: Colors.black45
+        )
+      ),
+      toTitle: Text(
+        'To',
+        style: GoogleFonts.openSans(
+          fontSize: 14,
+          color: Colors.black45
+        ),
+      ),
+      titlePadding: 15,
+      textStyle:
+          TextStyle(fontWeight: FontWeight.normal, color: _shadeColor),
+      activeTextStyle:
+          TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+      activeBorderColor: _shadeColor,
+      borderColor: _shadeColor,
+      backgroundColor: Colors.transparent,
+      activeBackgroundColor: _shadeColor,
+      firstTime: TimeOfDay(hour: 08, minute: 00),
+      lastTime: TimeOfDay(hour: 23, minute: 10),
+      timeStep: 10,
+      timeBlock: 10,
+      onRangeCompleted: (range) {
+        startTime = range.start.format(context);
+        endTime = range.end.format(context);
+      },
+    );
+  }
+
+  
   Widget buildMainContainer() {
     return Form(
       key: _formKey,
@@ -245,102 +359,6 @@ class _AddLessonState extends State<AddLesson> {
     );
   }
 
-  void _openDialog(String title, Widget content) {
-    showDialog(
-      context: context,
-      builder: (_) {
-        return AlertDialog(
-          contentPadding: const EdgeInsets.all(6.0),
-          title: Text(title),
-          content: content,
-          actions: [
-            TextButton(
-              child: Text('CANCEL'),
-              onPressed: Navigator.of(context).pop,
-            ),
-            TextButton(
-              child: Text('SUBMIT'),
-              onPressed: () {
-                Navigator.of(context).pop();
-                // setState(() => _shadeColor = _tempShadeColor
-                setState(() {
-                  _shadeColor = _tempShadeColor;
-                  color = _tempShadeColor.toString();
-                });
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _openColorPicker() async {
-    _openDialog(
-      "Color picker",
-      MaterialColorPicker(
-        selectedColor: _shadeColor,
-        onColorChange: (color) => setState(() => _tempShadeColor = color),
-        onBack: () => print("Back button pressed"),
-      ),
-    );
-  }
-
-  Widget dayPicker() {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-        child: SelectWeekDays(
-          border: false,
-          boxDecoration: BoxDecoration(
-            color: _shadeColor
-          ),
-          onSelect: (values) {
-            // <== Callback to handle the selected days
-            day = values[0];
-            print(values[0]);
-          },
-        ),
-      ),
-    );
-  }
-
-  Widget timeRangePicker() {
-    return TimeRange(
-      fromTitle: Text(
-        'From',
-        style: GoogleFonts.openSans(
-          fontSize: 14,
-          color: Colors.black45
-        )
-      ),
-      toTitle: Text(
-        'To',
-        style: GoogleFonts.openSans(
-          fontSize: 14,
-          color: Colors.black45
-        ),
-      ),
-      titlePadding: 15,
-      textStyle:
-          TextStyle(fontWeight: FontWeight.normal, color: _shadeColor),
-      activeTextStyle:
-          TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-      activeBorderColor: _shadeColor,
-      borderColor: _shadeColor,
-      backgroundColor: Colors.transparent,
-      activeBackgroundColor: _shadeColor,
-      firstTime: TimeOfDay(hour: 08, minute: 00),
-      lastTime: TimeOfDay(hour: 23, minute: 10),
-      timeStep: 10,
-      timeBlock: 10,
-      onRangeCompleted: (range) {
-        startTime = range.start.format(context);
-        endTime = range.end.format(context);
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return OKToast(
@@ -398,16 +416,7 @@ class _AddLessonState extends State<AddLesson> {
                       child: Align(
                         alignment: Alignment.topRight,
                         child: ElevatedButton(
-                          onPressed: () {
-                            if (_formKey.currentState.validate()) {
-                              saveData();
-                            } else {
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(SnackBar(content: Text('Error!')
-                                )
-                              );
-                            }
-                          },
+                          onPressed: _openColorPicker,
                           child: Text(
                             'SAVE',
                             style: GoogleFonts.openSans(

@@ -27,9 +27,6 @@ class _AddLessonState extends State<AddLesson> {
 
   final _formKey = GlobalKey<FormState>();
 
-  Color _tempShadeColor;
-  Color _shadeColor = Colors.blue[800];
-
   // Methods
   void saveData() async {
     print('$name, $abbr, $color, $type, $teacher, $place, $startTime, $endTime');
@@ -59,6 +56,219 @@ class _AddLessonState extends State<AddLesson> {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Failed to Save!")));
     }
+  }
+
+  Color _tempShadeColor;
+  Color _shadeColor = Colors.blue[800];
+
+  void _openDialog(String title, Widget content) {
+    showDialog(
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          contentPadding: const EdgeInsets.all(6.0),
+          title: Text(title),
+          content: content,
+          actions: [
+            TextButton(
+              child: Text('CANCEL'),
+              onPressed: Navigator.of(context).pop,
+            ),
+            TextButton(
+              child: Text('SUBMIT'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                // setState(() => _shadeColor = _tempShadeColor
+                setState(() {
+                  _shadeColor = _tempShadeColor;
+                  color = _tempShadeColor.toString();
+                });
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _openColorPicker() async {
+    _openDialog(
+      "Color picker",
+      MaterialColorPicker(
+        selectedColor: _shadeColor,
+        onColorChange: (color) => setState(() => _tempShadeColor = color),
+        onBack: () => print("Back button pressed"),
+      ),
+    );
+  }
+
+  Widget dayPicker() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+        child: SelectWeekDays(
+          border: false,
+          boxDecoration: BoxDecoration(
+            color: _shadeColor
+          ),
+          onSelect: (values) {
+            // <== Callback to handle the selected days
+            day = values[0];
+            print(values[0]);
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget timeRangePicker() {
+    return TimeRange(
+      fromTitle: Text(
+        'From',
+        style: GoogleFonts.openSans(
+          fontSize: 14,
+          color: Colors.black45
+        )
+      ),
+      toTitle: Text(
+        'To',
+        style: GoogleFonts.openSans(
+          fontSize: 14,
+          color: Colors.black45
+        ),
+      ),
+      titlePadding: 15,
+      textStyle:
+          TextStyle(fontWeight: FontWeight.normal, color: _shadeColor),
+      activeTextStyle:
+          TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+      activeBorderColor: _shadeColor,
+      borderColor: _shadeColor,
+      backgroundColor: Colors.transparent,
+      activeBackgroundColor: _shadeColor,
+      firstTime: TimeOfDay(hour: 08, minute: 00),
+      lastTime: TimeOfDay(hour: 23, minute: 10),
+      timeStep: 10,
+      timeBlock: 10,
+      onRangeCompleted: (range) {
+        startTime = range.start.format(context);
+        endTime = range.end.format(context);
+      },
+    );
+  }
+
+  Widget form() {
+    return Form(
+      key: _formKey,
+      child: Container(
+        margin: EdgeInsets.fromLTRB(15, 10, 15, 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextFormField(
+              decoration: InputDecoration(
+                labelText: 'Name',
+              ),
+              onChanged: (value) {
+                setState(() {
+                  name = value;
+                });
+              },
+              validator: (val) {
+                if (val.isEmpty) {
+                  return 'Name is empty!';
+                }
+                return null;
+              }),
+            TextFormField(
+              decoration: InputDecoration(
+                labelText: 'Abbreviation',
+              ),
+              onChanged: (value) {
+                setState(() {
+                  abbr = value;
+                });
+              },
+              validator: (val) {
+                if (val.isEmpty) {
+                  return 'Abbreviation is empty!';
+                }
+                return null;
+              }),
+            Row(
+              children: [
+                CircleAvatar(backgroundColor: _shadeColor, radius: 35.0),
+                OutlinedButton(
+                  onPressed: _openColorPicker,
+                  child: const Text('Choose Color'),
+                ),
+              ],
+            ),
+            TextFormField(
+              decoration: InputDecoration(
+                labelText: 'Type',
+              ),
+              onChanged: (value) {
+                setState(() {
+                  type = value;
+                });
+              },
+              validator: (val) {
+                if (val.isEmpty) {
+                  return 'Type is empty!';
+                }
+                return null;
+              }),
+            TextFormField(
+              decoration: InputDecoration(
+                labelText: 'Teacher',
+              ),
+              onChanged: (value) {
+                setState(() {
+                  teacher = value;
+                });
+              },
+              validator: (val) {
+                if (val.isEmpty) {
+                  return 'Teacher is empty!';
+                }
+                return null;
+              }),
+            TextFormField(
+              decoration: InputDecoration(
+                labelText: 'Place',
+              ),
+              onChanged: (value) {
+                setState(() {
+                  place = value;
+                });
+              },
+              validator: (val) {
+                if (val.isEmpty) {
+                  return 'Place is empty!';
+                }
+                return null;
+              }),
+            dayPicker(),
+            timeRangePicker(),
+            ElevatedButton(
+              onPressed: () {
+                if (_formKey.currentState.validate()) {
+                  saveData();
+                } else {
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text('Error!')
+                    )
+                  );
+                }
+              },
+              child: Text('SIGN UP',
+                  style: TextStyle(fontWeight: FontWeight.bold)))
+          ]
+        )
+      )
+    );
   }
 
   // Widget
@@ -245,102 +455,6 @@ class _AddLessonState extends State<AddLesson> {
     );
   }
 
-  void _openDialog(String title, Widget content) {
-    showDialog(
-      context: context,
-      builder: (_) {
-        return AlertDialog(
-          contentPadding: const EdgeInsets.all(6.0),
-          title: Text(title),
-          content: content,
-          actions: [
-            TextButton(
-              child: Text('CANCEL'),
-              onPressed: Navigator.of(context).pop,
-            ),
-            TextButton(
-              child: Text('SUBMIT'),
-              onPressed: () {
-                Navigator.of(context).pop();
-                // setState(() => _shadeColor = _tempShadeColor
-                setState(() {
-                  _shadeColor = _tempShadeColor;
-                  color = _tempShadeColor.toString();
-                });
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _openColorPicker() async {
-    _openDialog(
-      "Color picker",
-      MaterialColorPicker(
-        selectedColor: _shadeColor,
-        onColorChange: (color) => setState(() => _tempShadeColor = color),
-        onBack: () => print("Back button pressed"),
-      ),
-    );
-  }
-
-  Widget dayPicker() {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-        child: SelectWeekDays(
-          border: false,
-          boxDecoration: BoxDecoration(
-            color: _shadeColor
-          ),
-          onSelect: (values) {
-            // <== Callback to handle the selected days
-            day = values[0];
-            print(values[0]);
-          },
-        ),
-      ),
-    );
-  }
-
-  Widget timeRangePicker() {
-    return TimeRange(
-      fromTitle: Text(
-        'From',
-        style: GoogleFonts.openSans(
-          fontSize: 14,
-          color: Colors.black45
-        )
-      ),
-      toTitle: Text(
-        'To',
-        style: GoogleFonts.openSans(
-          fontSize: 14,
-          color: Colors.black45
-        ),
-      ),
-      titlePadding: 15,
-      textStyle:
-          TextStyle(fontWeight: FontWeight.normal, color: _shadeColor),
-      activeTextStyle:
-          TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-      activeBorderColor: _shadeColor,
-      borderColor: _shadeColor,
-      backgroundColor: Colors.transparent,
-      activeBackgroundColor: _shadeColor,
-      firstTime: TimeOfDay(hour: 08, minute: 00),
-      lastTime: TimeOfDay(hour: 23, minute: 10),
-      timeStep: 10,
-      timeBlock: 10,
-      onRangeCompleted: (range) {
-        startTime = range.start.format(context);
-        endTime = range.end.format(context);
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return OKToast(
@@ -398,16 +512,7 @@ class _AddLessonState extends State<AddLesson> {
                       child: Align(
                         alignment: Alignment.topRight,
                         child: ElevatedButton(
-                          onPressed: () {
-                            if (_formKey.currentState.validate()) {
-                              saveData();
-                            } else {
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(SnackBar(content: Text('Error!')
-                                )
-                              );
-                            }
-                          },
+                          onPressed: _openColorPicker,
                           child: Text(
                             'SAVE',
                             style: GoogleFonts.openSans(
