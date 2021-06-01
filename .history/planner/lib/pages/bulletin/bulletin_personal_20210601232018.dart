@@ -7,8 +7,6 @@ import 'package:avatar_letter/avatar_letter.dart';
 import 'package:MyUni/models/News.dart';
 import 'package:MyUni/models/Verify.dart';
 
-import 'bulletin_details.dart';
-
 class Personal extends StatefulWidget {
   @override
   _PersonalState createState() => _PersonalState();
@@ -113,10 +111,7 @@ class _PersonalState extends State<Personal> {
           ),
           IconButton(
             onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => BulletinDetails(announcements: News))
-                );
+              print('Annnouncement clicked');
             },
             icon: Icon(Icons.arrow_right),
           ),

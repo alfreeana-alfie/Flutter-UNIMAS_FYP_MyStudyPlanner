@@ -7,8 +7,6 @@ import 'package:avatar_letter/avatar_letter.dart';
 import 'package:MyUni/models/News.dart';
 import 'package:MyUni/models/Verify.dart';
 
-import 'bulletin_details.dart';
-
 class Personal extends StatefulWidget {
   @override
   _PersonalState createState() => _PersonalState();

@@ -7,13 +7,14 @@ import 'package:time_range/time_range.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:http/http.dart' as http;
 
-class AddLesson extends StatefulWidget {
+
+class EditLesson extends StatefulWidget {
   @override
-  _AddLessonState createState() => _AddLessonState();
+  _EditLessonState createState() => _EditLessonState();
 }
 
-class _AddLessonState extends State<AddLesson> {
-
+class _EditLessonState extends State<EditLesson> {
+  
   // Variables
   String name = '';
   String abbr = '';
@@ -60,6 +61,8 @@ class _AddLessonState extends State<AddLesson> {
           .showSnackBar(SnackBar(content: Text("Failed to Save!")));
     }
   }
+
+  void getData() async{]}
 
   // Widget
   Widget buildMainContainer() {
@@ -363,7 +366,10 @@ class _AddLessonState extends State<AddLesson> {
                           color: Colors.white,
                         ), 
                         onPressed: (){
-                          Navigator.pop(context);
+                          Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Timetable()));
                         }),
                       decoration: BoxDecoration(
                         color: _shadeColor,

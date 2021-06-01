@@ -7,14 +7,12 @@ import 'package:avatar_letter/avatar_letter.dart';
 import 'package:MyUni/models/News.dart';
 import 'package:MyUni/models/Verify.dart';
 
-import 'bulletin_details.dart';
-
-class Personal extends StatefulWidget {
+class General extends StatefulWidget {
   @override
-  _PersonalState createState() => _PersonalState();
+  _GeneralState createState() => _GeneralState();
 }
 
-class _PersonalState extends State<Personal> {
+class _GeneralState extends State<General> {
   // Variables
   List<News> dataNewsList = [];
   Map<String, dynamic> verifyMap;
@@ -23,7 +21,7 @@ class _PersonalState extends State<Personal> {
   // Methods
   Future getAnnouncementList() async {
     Uri getAPILink =
-        Uri.parse("https://hawkingnight.com/planner/public/api/get-news/1");
+        Uri.parse("https://hawkingnight.com/planner/public/api/get-news/0");
 
     final response =
         await http.get(getAPILink, headers: {"Accept": "application/json"});
@@ -115,7 +113,7 @@ class _PersonalState extends State<Personal> {
             onPressed: () {
               Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => BulletinDetails(announcements: News))
+                  MaterialPageRoute(builder: (context) => BulletinDetails(announcements: announcements[index]))
                 );
             },
             icon: Icon(Icons.arrow_right),

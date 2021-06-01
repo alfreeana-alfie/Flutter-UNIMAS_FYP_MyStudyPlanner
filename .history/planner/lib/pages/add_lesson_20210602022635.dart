@@ -363,7 +363,9 @@ class _AddLessonState extends State<AddLesson> {
                           color: Colors.white,
                         ), 
                         onPressed: (){
-                          Navigator.pop(context);
+                          Navigator.pop(
+                            
+                          );
                         }),
                       decoration: BoxDecoration(
                         color: _shadeColor,

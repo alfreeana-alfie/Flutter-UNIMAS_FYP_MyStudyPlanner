@@ -1,19 +1,12 @@
-import 'package:MyUni/pages/timetable.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:oktoast/oktoast.dart';
-import 'package:day_picker/day_picker.dart';
-import 'package:time_range/time_range.dart';
-import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
-import 'package:http/http.dart' as http;
 
-class AddLesson extends StatefulWidget {
+class EditLesson extends StatefulWidget {
   @override
-  _AddLessonState createState() => _AddLessonState();
+  _EditLessonState createState() => _EditLessonState();
 }
 
-class _AddLessonState extends State<AddLesson> {
-
+class _EditLessonState extends State<EditLesson> {
+  
   // Variables
   String name = '';
   String abbr = '';
@@ -363,7 +356,10 @@ class _AddLessonState extends State<AddLesson> {
                           color: Colors.white,
                         ), 
                         onPressed: (){
-                          Navigator.pop(context);
+                          Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Timetable()));
                         }),
                       decoration: BoxDecoration(
                         color: _shadeColor,
