@@ -106,7 +106,7 @@ class _ProfileState extends State<Profile> {
 
   Widget buildTitle() {
     return Container(
-      margin: EdgeInsets.fromLTRB(15, 80, 0, 0),
+      margin: EdgeInsets.fromLTRB(15, 50, 0, 0),
       // child: Align(
       //   alignment: Alignment.topLeft,
       //   child: Text('Profile',

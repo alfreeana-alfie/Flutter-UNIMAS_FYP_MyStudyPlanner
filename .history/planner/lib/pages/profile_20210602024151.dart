@@ -106,16 +106,16 @@ class _ProfileState extends State<Profile> {
 
   Widget buildTitle() {
     return Container(
-      margin: EdgeInsets.fromLTRB(15, 80, 0, 0),
-      // child: Align(
-      //   alignment: Alignment.topLeft,
-      //   child: Text('Profile',
-      //       style: GoogleFonts.nunito(
-      //           textStyle: TextStyle(
-      //               fontSize: 42,
-      //               fontWeight: FontWeight.w900,
-      //               color: Colors.green[800]))),
-      // ),
+      margin: EdgeInsets.fromLTRB(15, 50, 0, 0),
+      child: Align(
+        alignment: Alignment.topLeft,
+        child: Text('Profile',
+            style: GoogleFonts.nunito(
+                textStyle: TextStyle(
+                    fontSize: 42,
+                    fontWeight: FontWeight.w900,
+                    color: Colors.green[800]))),
+      ),
     );
   }
 
