@@ -281,7 +281,7 @@ class _HomepageState extends State<Homepage> {
     return Padding(
         padding: EdgeInsets.fromLTRB(5, 0, 5, 20),
         child:
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           AvatarLetter(
               size: 50,
               backgroundColor: Colors.blue[100],

@@ -1,9 +1,8 @@
-import 'package:MyUni/pages/animated_calendar.dart';
+import 'package:MyUni/pages/calendar.dart';
 import 'package:bubbled_navigation_bar/bubbled_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:MyUni/pages/bulletin/bulletin.dart';
-import 'package:MyUni/pages/calendar.dart';
 import 'package:MyUni/pages/home.dart';
 import 'package:MyUni/pages/profile.dart';
 import 'package:MyUni/pages/timetable.dart';
