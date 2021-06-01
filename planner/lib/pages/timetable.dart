@@ -1,5 +1,4 @@
 import 'package:MyUni/pages/add_lesson.dart';
-import 'package:MyUni/pages/subject.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -21,44 +20,72 @@ class _TimetableState extends State<Timetable> {
   Map<String, dynamic> lessonList;
 
   // Methods
-  Future getSharedData() async {
+  Future downloadData()async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (this.mounted) {
-      setState(() {
-        var userID = prefs.getInt("userID");
-
-        getLessonList(userID.toString());
-      });
-    }
-  }
-
-  Future getLessonList(String userIDStr) async {
+    var userID = prefs.getInt("userID");
     Uri getAPILink = Uri.parse(
-        "https://hawkingnight.com/planner/public/api/get-lesson/$userIDStr");
+        "https://hawkingnight.com/planner/public/api/get-lesson/$userID");
 
     final response =
         await http.get(getAPILink, headers: {"Accept": "application/json"});
 
     if (response.statusCode == 200) {
-      verifyMap = jsonDecode(response.body);
-      var verifyData = Verify.fromJSON(verifyMap);
+        verifyMap = jsonDecode(response.body);
+        var verifyData = Verify.fromJSON(verifyMap);
 
-      if (verifyData.status == "SUCCESS") {
-        lessonList = jsonDecode(response.body);
+        if (verifyData.status == "SUCCESS") {
+          lessonList = jsonDecode(response.body);
 
-        _parseLesson(lessonList);
+          // _parseLesson(lessonList);
+          _parseAppointment();
+        } else {
+          print('Failed to fetch!');
+        }
+        return Future.value("Data download successfully");
       } else {
         print('Failed to fetch!');
       }
-    } else {
-      throw Exception('Unable to fetch data from the REST API');
-    }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    getSharedData();
+  List<Appointment> _parseAppointment() {
+    List<Appointment> meetings = [];
+    for (var lessonMap in lessonList['lesson']) {
+      final lessons = Lesson.fromMap(lessonMap);
+
+      // Start Time 
+      String _startTimeSTR = lessons.startTime;
+      int _startTimeHour = int.parse(_startTimeSTR.split(":")[0]);
+      int _startTimeMin = int.parse(_startTimeSTR.split(":")[1].split(" ")[0]);
+
+      // End Time
+      String _endTimeSTR = lessons.endTime;
+      int _endTimeHour = int.parse(_endTimeSTR.split(":")[0]);
+      int _endTimeMin = int.parse(_endTimeSTR.split(":")[1].split(" ")[0]);
+
+      // Colour
+      String colorString = lessons.color;
+      String valueString = colorString.split('(0x')[1].split(')')[0];
+      int value = int.parse(valueString, radix: 16);
+      Color lessonColor = new Color(value);
+
+      TimeOfDay _startTime =
+          TimeOfDay(hour: _startTimeHour, minute: _startTimeMin);
+      TimeOfDay _endTime = TimeOfDay(hour: _endTimeHour, minute: _endTimeMin);
+
+      final today = new DateTime.now();
+      final DateTime startTime = DateTime(today.year, today.month, today.day,
+          _startTime.hour, _startTime.minute, 0);
+      final DateTime endTime = DateTime(today.year, today.month, today.day,
+          _endTime.hour, _endTime.minute, 0);
+
+      meetings.add(Appointment(
+          startTime: startTime,
+          endTime: endTime,
+          subject: lessons.name,
+          color: lessonColor,
+          recurrenceRule: "FREQ=WEEKLY;BYDAY=${lessons.day.toUpperCase()}"));
+    }
+    return meetings;
   }
 
   // Widgets
@@ -83,15 +110,29 @@ class _TimetableState extends State<Timetable> {
                                 color: Colors.blue[800]))),
                   ),
                 ),
-
                 Container(
-                  margin: EdgeInsets.fromLTRB(10, 70, 10, 0),
-                  child: Ink(
-                    decoration: const ShapeDecoration(
-                      color: 
-                    ),
-                  )
-                ),
+                    margin: EdgeInsets.fromLTRB(10, 70, 10, 0),
+                    child: Material(
+                      color: Colors.white,
+                      child: Center(
+                        child: Ink(
+                          decoration: ShapeDecoration(
+                            color: Colors.blue[800],
+                            shape: CircleBorder(),
+                          ),
+                          child: IconButton(
+                            icon: const Icon(Icons.add),
+                            color: Colors.white,
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AddLesson()));
+                            },
+                          ),
+                        ),
+                      ),
+                    )),
               ],
             ),
             Expanded(
@@ -111,20 +152,31 @@ class _TimetableState extends State<Timetable> {
   }
 
   Widget buildCalendar() {
-    return SfCalendar(
-      view: CalendarView.week,
-      showNavigationArrow: true,
-      showDatePickerButton: true,
-
-      showCurrentTimeIndicator: true,
-      onTap: (calendarLongPressDetails) {
-        print(calendarLongPressDetails.appointments);
+    return FutureBuilder(
+      future: downloadData(),
+      builder: (context, snapshot) {
+        if( snapshot.connectionState == ConnectionState.waiting){
+          return  Center(child: Text('Please wait its loading...'));
+        }else{
+            if (snapshot.hasError)
+              return Center(child: Text('Error: ${snapshot.error}'));
+            else
+              return SfCalendar(
+                view: CalendarView.week,
+                showNavigationArrow: true,
+                showDatePickerButton: true,
+                showCurrentTimeIndicator: true,
+                onTap: (calendarLongPressDetails) {
+                  print(calendarLongPressDetails.appointments);
+                },
+                firstDayOfWeek: 1,
+                monthViewSettings: MonthViewSettings(showAgenda: true),
+                timeSlotViewSettings: TimeSlotViewSettings(
+                    startHour: 7, endHour: 24, timeIntervalHeight: 60),
+                dataSource: MeetingDataSource(_parseAppointment()),
+              );  
+        }
       },
-      firstDayOfWeek: 1,
-      monthViewSettings: MonthViewSettings(showAgenda: true),
-      timeSlotViewSettings: TimeSlotViewSettings(
-          startHour: 7, endHour: 24, timeIntervalHeight: 60),
-      dataSource: MeetingDataSource(getAppointments()),
     );
   }
 
@@ -132,52 +184,6 @@ class _TimetableState extends State<Timetable> {
   Widget build(BuildContext context) {
     return Scaffold(body: buildMainContainer());
   }
-}
-
-List<Lesson> _parseLesson(Map<String, dynamic> map) {
-  final lesson = <Lesson>[];
-  for (var lessonMap in map['lesson']) {
-    final lessons = Lesson.fromMap(lessonMap);
-    lesson.add(lessons);
-  }
-  return lesson;
-}
-
-List<Appointment> getAppointments() {
-  List<Appointment> meetings = [];
-  final DateTime today = DateTime.now();
-  final DateTime startTime = DateTime(2021, 05, 03, 12, 0, 0);
-  final DateTime endTime = startTime.add(const Duration(hours: 2));
-
-  final DateTime startTime02 = DateTime(2021, 05, 03, 14, 0, 0);
-  final DateTime endTime02 = startTime02.add(const Duration(hours: 2));
-
-  final DateTime startTime03 =
-      DateTime(today.year, today.month, today.day, 8, 0, 0);
-  final DateTime endTime03 = startTime03.add(const Duration(hours: 2));
-
-  meetings.add(Appointment(
-      startTime: startTime,
-      endTime: endTime,
-      subject: "TMT4013 - Computer Game Design and Development",
-      color: Colors.orange,
-      recurrenceRule: "FREQ=WEEKLY;BYDAY=MO"));
-
-  meetings.add(Appointment(
-      startTime: startTime02,
-      endTime: endTime02,
-      subject: "TMT4693 - Intelligent System",
-      color: Colors.blue,
-      recurrenceRule: "FREQ=WEEKLY;BYDAY=MO"));
-
-  meetings.add(Appointment(
-      startTime: startTime03,
-      endTime: endTime03,
-      subject: "TMF4034 - Technopreneurship and Product Developement",
-      color: Colors.green,
-      recurrenceRule: "FREQ=WEEKLY;BYDAY=THURS"));
-
-  return meetings;
 }
 
 class MeetingDataSource extends CalendarDataSource {
