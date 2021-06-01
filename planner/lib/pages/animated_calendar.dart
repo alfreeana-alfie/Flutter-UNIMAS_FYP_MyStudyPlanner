@@ -5,16 +5,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'package:MyUni/pages/add_lesson.dart';
 import 'package:MyUni/models/Verify.dart';
 import 'package:MyUni/models/Lesson.dart';
 
-class Timetable extends StatefulWidget {
+class Calendar extends StatefulWidget {
   @override
-  _TimetableState createState() => _TimetableState();
+  _CalendarState createState() => _CalendarState();
 }
 
-class _TimetableState extends State<Timetable> {
+class _CalendarState extends State<Calendar> {
   // Variables
   Map<String, dynamic> verifyMap;
   Map<String, dynamic> lessonList;
@@ -102,12 +101,12 @@ class _TimetableState extends State<Timetable> {
                   margin: EdgeInsets.fromLTRB(10, 70, 0, 0),
                   child: Align(
                     alignment: Alignment.topLeft,
-                    child: Text('Timetable',
+                    child: Text('Calendar',
                         style: GoogleFonts.nunito(
                             textStyle: TextStyle(
                                 fontSize: 42,
                                 fontWeight: FontWeight.w900,
-                                color: Colors.blue[800]))),
+                                color: Colors.blue[500]))),
                   ),
                 ),
                 Container(
@@ -117,17 +116,14 @@ class _TimetableState extends State<Timetable> {
                       child: Center(
                         child: Ink(
                           decoration: ShapeDecoration(
-                            color: Colors.blue[800],
+                            color: Colors.blue[500],
                             shape: CircleBorder(),
                           ),
                           child: IconButton(
                             icon: const Icon(Icons.add),
                             color: Colors.white,
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => AddLesson()));
+                              
                             },
                           ),
                         ),
@@ -156,33 +152,48 @@ class _TimetableState extends State<Timetable> {
       future: downloadData(),
       builder: (context, snapshot) {
         if( snapshot.connectionState == ConnectionState.waiting){
+          // return  Center(child: Text('Please wait its loading...'));
           return SfCalendar(
-                view: CalendarView.week,
+                view: CalendarView.month,
                 showNavigationArrow: true,
                 showDatePickerButton: true,
                 showCurrentTimeIndicator: true,
+                monthViewSettings: MonthViewSettings(showAgenda: true),
+                firstDayOfWeek: 1,
+                allowedViews: <CalendarView>
+                [
+                  CalendarView.day,
+                  CalendarView.week,
+                  CalendarView.workWeek,
+                  CalendarView.month
+                ],
                 onTap: (calendarLongPressDetails) {
                   print(calendarLongPressDetails.appointments);
                 },
-                firstDayOfWeek: 1,
-                monthViewSettings: MonthViewSettings(showAgenda: true),
                 timeSlotViewSettings: TimeSlotViewSettings(
                     startHour: 7, endHour: 24, timeIntervalHeight: 60)
-              );  
+              ); 
         }else{
             if (snapshot.hasError)
               return Center(child: Text('Error: ${snapshot.error}'));
             else
               return SfCalendar(
-                view: CalendarView.week,
+                view: CalendarView.month,
                 showNavigationArrow: true,
                 showDatePickerButton: true,
                 showCurrentTimeIndicator: true,
+                monthViewSettings: MonthViewSettings(showAgenda: true),
+                firstDayOfWeek: 1,
+                allowedViews: <CalendarView>
+                [
+                  CalendarView.day,
+                  CalendarView.week,
+                  CalendarView.workWeek,
+                  CalendarView.month
+                ],
                 onTap: (calendarLongPressDetails) {
                   print(calendarLongPressDetails.appointments);
                 },
-                firstDayOfWeek: 1,
-                monthViewSettings: MonthViewSettings(showAgenda: true),
                 timeSlotViewSettings: TimeSlotViewSettings(
                     startHour: 7, endHour: 24, timeIntervalHeight: 60),
                 dataSource: MeetingDataSource(_parseAppointment()),

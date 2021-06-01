@@ -1,3 +1,4 @@
+import 'package:MyUni/pages/animated_calendar.dart';
 import 'package:bubbled_navigation_bar/bubbled_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +40,7 @@ class _MainScreenState extends State<MainScreen> {
   List<Widget> _widgetOptions = [
     Homepage(),
     Timetable(),
-    SysCalendar(),
+    Calendar(),
     Bulletin(),
     Profile()
   ];
