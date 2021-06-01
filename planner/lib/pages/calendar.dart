@@ -97,7 +97,7 @@ class _CalendarState extends State<Calendar> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  margin: EdgeInsets.fromLTRB(10, 70, 0, 0),
+                  margin: EdgeInsets.fromLTRB(15, 60, 0, 0),
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: Text('Calendar',
@@ -109,7 +109,7 @@ class _CalendarState extends State<Calendar> {
                   ),
                 ),
                 Container(
-                    margin: EdgeInsets.fromLTRB(10, 70, 10, 0),
+                    margin: EdgeInsets.fromLTRB(10, 60, 15, 0),
                     child: Material(
                       color: Colors.white,
                       child: Center(

@@ -21,7 +21,7 @@ class _PersonalState extends State<Personal> {
   // Methods
   Future getAnnouncementList() async {
     Uri getAPILink =
-        Uri.parse("https://hawkingnight.com/planner/public/api/get-news");
+        Uri.parse("https://hawkingnight.com/planner/public/api/get-news/1");
 
     final response =
         await http.get(getAPILink, headers: {"Accept": "application/json"});

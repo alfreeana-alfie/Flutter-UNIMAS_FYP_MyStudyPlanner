@@ -15,7 +15,7 @@ class Bulletin extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  margin: EdgeInsets.fromLTRB(10, 70, 0, 0),
+                  margin: EdgeInsets.fromLTRB(15, 60, 0, 10),
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: Text('Bulletin',
@@ -37,7 +37,7 @@ class Bulletin extends StatelessWidget {
     return Expanded(
       flex: 1,
       child: Container(
-        margin: EdgeInsets.fromLTRB(0, 50, 0, 0),
+        margin: EdgeInsets.fromLTRB(0, 60, 0, 0),
         child: MaterialApp(
           home: DefaultTabController(
             length: 3,
@@ -77,16 +77,19 @@ class Bulletin extends StatelessWidget {
           appBar: AppBar(
             title: Align(
               alignment: Alignment.topLeft,
-              child: Text('Bulletin',
+              child:  Container(
+                margin: EdgeInsets.fromLTRB(15, 15, 15, 10),
+                child: Text('Bulletin',
                   style: GoogleFonts.nunito(
                       textStyle: TextStyle(
                           fontSize: 42,
                           fontWeight: FontWeight.w900,
                           color: Colors.white
-                        )
-                      )
-                    ),
-                  ),
+                    )
+                  )
+                ),
+              )
+            ),
             backgroundColor: Colors.orange[800],
             elevation: 0,
             bottom: TabBar(
