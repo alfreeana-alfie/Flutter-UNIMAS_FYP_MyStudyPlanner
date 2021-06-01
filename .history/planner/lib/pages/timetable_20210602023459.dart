@@ -5,15 +5,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:MyUni/pages/add_lesson.dart';
 import 'package:MyUni/models/Verify.dart';
 import 'package:MyUni/models/Lesson.dart';
 
-class Calendar extends StatefulWidget {
+class Timetable extends StatefulWidget {
   @override
-  _CalendarState createState() => _CalendarState();
+  _TimetableState createState() => _TimetableState();
 }
 
-class _CalendarState extends State<Calendar> {
+class _TimetableState extends State<Timetable> {
   // Variables
   Map<String, dynamic> verifyMap;
   Map<String, dynamic> lessonList;
@@ -35,6 +36,7 @@ class _CalendarState extends State<Calendar> {
         if (verifyData.status == "SUCCESS") {
           lessonList = jsonDecode(response.body);
 
+          // _parseLesson(lessonList);
           _parseAppointment();
         } else {
           print('Failed to fetch!');
@@ -71,9 +73,9 @@ class _CalendarState extends State<Calendar> {
       TimeOfDay _endTime = TimeOfDay(hour: _endTimeHour, minute: _endTimeMin);
 
       final today = new DateTime.now();
-      final DateTime startTime = DateTime(today.year, 01, 31,
+      final DateTime startTime = DateTime(today., 01, 31,
           _startTime.hour, _startTime.minute, 0);
-      final DateTime endTime = DateTime(today.year, 01, 31,
+      final DateTime endTime = DateTime(2021, 01, 31,
           _endTime.hour, _endTime.minute, 0);
 
       meetings.add(Appointment(
@@ -100,12 +102,12 @@ class _CalendarState extends State<Calendar> {
                   margin: EdgeInsets.fromLTRB(15, 60, 0, 0),
                   child: Align(
                     alignment: Alignment.topLeft,
-                    child: Text('Calendar',
+                    child: Text('Timetable',
                         style: GoogleFonts.nunito(
                             textStyle: TextStyle(
                                 fontSize: 42,
                                 fontWeight: FontWeight.w900,
-                                color: Colors.blue[500]))),
+                                color: Colors.blue[800]))),
                   ),
                 ),
                 Container(
@@ -115,14 +117,17 @@ class _CalendarState extends State<Calendar> {
                       child: Center(
                         child: Ink(
                           decoration: ShapeDecoration(
-                            color: Colors.blue[500],
+                            color: Colors.blue[800],
                             shape: CircleBorder(),
                           ),
                           child: IconButton(
                             icon: const Icon(Icons.add),
                             color: Colors.white,
                             onPressed: () {
-                              
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AddLesson()));
                             },
                           ),
                         ),
@@ -151,48 +156,33 @@ class _CalendarState extends State<Calendar> {
       future: downloadData(),
       builder: (context, snapshot) {
         if( snapshot.connectionState == ConnectionState.waiting){
-          // return  Center(child: Text('Please wait its loading...'));
           return SfCalendar(
-                view: CalendarView.month,
+                view: CalendarView.week,
                 showNavigationArrow: true,
                 showDatePickerButton: true,
                 showCurrentTimeIndicator: true,
-                monthViewSettings: MonthViewSettings(showAgenda: true),
-                firstDayOfWeek: 1,
-                allowedViews: <CalendarView>
-                [
-                  CalendarView.day,
-                  CalendarView.week,
-                  CalendarView.workWeek,
-                  CalendarView.month
-                ],
                 onTap: (calendarLongPressDetails) {
                   print(calendarLongPressDetails.appointments);
                 },
+                firstDayOfWeek: 1,
+                monthViewSettings: MonthViewSettings(showAgenda: true),
                 timeSlotViewSettings: TimeSlotViewSettings(
                     startHour: 7, endHour: 24, timeIntervalHeight: 60)
-              ); 
+              );  
         }else{
             if (snapshot.hasError)
               return Center(child: Text('Error: ${snapshot.error}'));
             else
               return SfCalendar(
-                view: CalendarView.month,
+                view: CalendarView.week,
                 showNavigationArrow: true,
                 showDatePickerButton: true,
                 showCurrentTimeIndicator: true,
-                monthViewSettings: MonthViewSettings(showAgenda: true),
-                firstDayOfWeek: 1,
-                allowedViews: <CalendarView>
-                [
-                  CalendarView.day,
-                  CalendarView.week,
-                  CalendarView.workWeek,
-                  CalendarView.month
-                ],
                 onTap: (calendarLongPressDetails) {
                   print(calendarLongPressDetails.appointments);
                 },
+                firstDayOfWeek: 1,
+                monthViewSettings: MonthViewSettings(showAgenda: true),
                 timeSlotViewSettings: TimeSlotViewSettings(
                     startHour: 7, endHour: 24, timeIntervalHeight: 60),
                 dataSource: MeetingDataSource(_parseAppointment()),

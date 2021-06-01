@@ -71,9 +71,9 @@ class _CalendarState extends State<Calendar> {
       TimeOfDay _endTime = TimeOfDay(hour: _endTimeHour, minute: _endTimeMin);
 
       final today = new DateTime.now();
-      final DateTime startTime = DateTime(today.year, 01, 31,
+      final DateTime startTime = DateTime(today.year, today.month, today.day,
           _startTime.hour, _startTime.minute, 0);
-      final DateTime endTime = DateTime(today.year, 01, 31,
+      final DateTime endTime = DateTime(today.year, today.month, today.day,
           _endTime.hour, _endTime.minute, 0);
 
       meetings.add(Appointment(
