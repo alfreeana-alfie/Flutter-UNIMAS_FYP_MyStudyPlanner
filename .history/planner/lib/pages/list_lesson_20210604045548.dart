@@ -118,31 +118,31 @@ class _ListLessonState extends State<ListLesson> {
               ),
             ),
             Container(
-              margin: EdgeInsets.fromLTRB(10, 0, 15, 0),
-              child: Material(
-                color: Colors.white,
-                child: Center(
-                  child: Ink(
-                    decoration: ShapeDecoration(
-                      color: Colors.blue[800],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
+                margin: EdgeInsets.fromLTRB(10, 0, 15, 0),
+                child: Material(
+                  color: Colors.white,
+                  child: Center(
+                    child: Ink(
+                      decoration: ShapeDecoration(
+                        color: Colors.blue[800],
+                        shape: BeveledRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
                       ),
-                    ),
-                    child: IconButton(
-                      icon: const Icon(Icons.add),
-                      color: Colors.white,
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AddLesson()));
-                      },
+                      child: IconButton(
+                        icon: const Icon(Icons.add),
+                        color: Colors.white,
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AddLesson()));
+                        },
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
           ],
         ),
       ),

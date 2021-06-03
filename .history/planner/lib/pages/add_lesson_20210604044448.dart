@@ -64,80 +64,77 @@ class _AddLessonState extends State<AddLesson> {
   @override
   Widget build(BuildContext context) {
     return OKToast(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.white,
-          elevation: 0.0,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                width: 45,
-                height: 45,
-                margin: EdgeInsets.all(15.0),
-                child: IconButton(
-                    icon: Icon(
-                      Icons.chevron_left,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    }),
-                decoration: BoxDecoration(
-                  color: _shadeColor,
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: _shadeColor),
-                ),
-              ),
-              Align(
-                alignment: Alignment.center,
-                child: Center(
-                  child: Text(
-                    'Add Lesson',
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.openSans(
-                      textStyle: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
+        child: Scaffold(
+            backgroundColor: Colors.white,
+            appBar: AppBar(
+                automaticallyImplyLeading: false,
+                backgroundColor: Colors.white,
+                elevation: 0.0,
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      width: 45,
+                      height: 45,
+                      margin: EdgeInsets.all(15.0),
+                      child: IconButton(
+                          icon: Icon(
+                            Icons.chevron_left,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          }),
+                      decoration: BoxDecoration(
                         color: _shadeColor,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: _shadeColor),
                       ),
                     ),
-                  ),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 5),
-                child: Align(
-                  alignment: Alignment.topRight,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState.validate()) {
-                        saveData();
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Error!')),
-                        );
-                      }
-                    },
-                    child: Text('SAVE',
-                        style: GoogleFonts.openSans(
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        )),
-                    style: ElevatedButton.styleFrom(
-                        primary: _shadeColor,
-                        side: BorderSide(width: 1, color: _shadeColor)),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        body: buildMainContainer(),
-      ),
-    );
+                    Align(
+                      alignment: Alignment.center,
+                      child: Center(
+                        child: Text(
+                          'Add Lesson',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.openSans(
+                            textStyle: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              color: _shadeColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 5),
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState.validate()) {
+                              saveData();
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('Error!')),
+                              );
+                            }
+                          },
+                          child: Text('SAVE',
+                              style: GoogleFonts.openSans(
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              )),
+                          style: ElevatedButton.styleFrom(
+                              primary: _shadeColor,
+                              side: BorderSide(width: 1, color: _shadeColor)),
+                        ),
+                      ),
+                    ),
+                  ],
+                )),
+            body: buildMainContainer()));
   }
 
   Widget buildMainContainer() {
@@ -246,68 +243,66 @@ class _AddLessonState extends State<AddLesson> {
 
   Widget buildOtherDetails() {
     return Container(
-      margin: EdgeInsets.fromLTRB(20, 0, 20, 10),
-      child: Column(
-        children: [
-          TextFormField(
-              decoration: InputDecoration(
-                labelText: 'Type (Eg: Lecture)',
-              ),
-              onChanged: (value) {
-                setState(() {
-                  type = value;
-                });
-              },
-              validator: (val) {
-                if (val.isEmpty) {
-                  return 'Type is empty!';
-                }
-                return null;
-              }),
-          TextFormField(
-              decoration: InputDecoration(
-                labelText: 'Teacher (Eg: Mr. Example)',
-              ),
-              onChanged: (value) {
-                setState(() {
-                  teacher = value;
-                });
-              },
-              validator: (val) {
-                if (val.isEmpty) {
-                  return 'Teacher is empty!';
-                }
-                return null;
-              }),
-          TextFormField(
-              decoration: InputDecoration(
-                labelText: 'Place (Eg: MM1 Lab)',
-              ),
-              onChanged: (value) {
-                setState(() {
-                  place = value;
-                });
-              },
-              validator: (val) {
-                if (val.isEmpty) {
-                  return 'Place is empty!';
-                }
-                return null;
-              }),
-        ],
-      ),
-    );
+        margin: EdgeInsets.fromLTRB(20, 0, 20, 10),
+        child: Column(
+          children: [
+            TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Type (Eg: Lecture)',
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    type = value;
+                  });
+                },
+                validator: (val) {
+                  if (val.isEmpty) {
+                    return 'Type is empty!';
+                  }
+                  return null;
+                }),
+            TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Teacher (Eg: Mr. Example)',
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    teacher = value;
+                  });
+                },
+                validator: (val) {
+                  if (val.isEmpty) {
+                    return 'Teacher is empty!';
+                  }
+                  return null;
+                }),
+            TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Place (Eg: MM1 Lab)',
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    place = value;
+                  });
+                },
+                validator: (val) {
+                  if (val.isEmpty) {
+                    return 'Place is empty!';
+                  }
+                  return null;
+                }),
+          ],
+        ));
   }
 
   Widget buildDayTime() {
     return Container(
-      child: Column(
-        children: [
-          dayPicker(),
-          timeRangePicker(),
-        ],
-      ),
-    );
+        child: Column(
+      children: [
+        dayPicker(),
+        timeRangePicker(),
+      ],
+    ));
   }
 
   void _openDialog(String title, Widget content) {

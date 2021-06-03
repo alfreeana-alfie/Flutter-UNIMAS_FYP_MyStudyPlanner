@@ -74,6 +74,7 @@ class _ListLessonState extends State<ListLesson> {
   // Widgets
   @override
   Widget build(BuildContext context) {
+    // return Scaffold(body: buildMainContainer());
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -118,31 +119,29 @@ class _ListLessonState extends State<ListLesson> {
               ),
             ),
             Container(
-              margin: EdgeInsets.fromLTRB(10, 0, 15, 0),
-              child: Material(
-                color: Colors.white,
-                child: Center(
-                  child: Ink(
-                    decoration: ShapeDecoration(
-                      color: Colors.blue[800],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
+                margin: EdgeInsets.fromLTRB(10, 0, 15, 0),
+                child: Material(
+                  color: Colors.white,
+                  child: Center(
+                    child: Ink(
+                      decoration: ShapeDecoration(
+                        color: Colors.blue[800],
+                        shape: CircleBorder(),
                       ),
-                    ),
-                    child: IconButton(
-                      icon: const Icon(Icons.add),
-                      color: Colors.white,
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AddLesson()));
-                      },
+                      child: IconButton(
+                        icon: const Icon(Icons.add),
+                        color: Colors.white,
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AddLesson()));
+                        },
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
           ],
         ),
       ),
@@ -156,10 +155,11 @@ class _ListLessonState extends State<ListLesson> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          
           Expanded(
             flex: 2,
             child: Container(
-              margin: EdgeInsets.fromLTRB(20, 30, 20, 0),
+              margin: EdgeInsets.fromLTRB(20, 15, 20, 0),
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(

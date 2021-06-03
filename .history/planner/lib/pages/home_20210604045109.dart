@@ -2,7 +2,6 @@ import 'dart:ui';
 import 'dart:convert';
 
 import 'package:MyUni/pages/bulletin/bulletin.dart';
-import 'package:MyUni/pages/list_lesson.dart';
 import 'package:MyUni/pages/subject.dart';
 import 'package:avatar_letter/avatar_letter.dart';
 import 'package:flutter/material.dart';
@@ -245,7 +244,7 @@ class _HomepageState extends State<Homepage> {
                     ElevatedButton(
                       onPressed: () {
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => ListLesson()));
+                            MaterialPageRoute(builder: (context) => ListLe()));
                       },
                       child: Text(
                         'See All',

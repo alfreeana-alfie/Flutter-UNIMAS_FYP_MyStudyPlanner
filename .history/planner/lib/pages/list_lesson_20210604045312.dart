@@ -74,6 +74,7 @@ class _ListLessonState extends State<ListLesson> {
   // Widgets
   @override
   Widget build(BuildContext context) {
+    // return Scaffold(body: buildMainContainer());
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -110,7 +111,7 @@ class _ListLessonState extends State<ListLesson> {
                   style: GoogleFonts.openSans(
                     textStyle: TextStyle(
                       fontSize: 18,
-                      fontWeight: FontWeight.w900,
+                      fontWeight: FontWeight.w600,
                       color: _shadeColor,
                     ),
                   ),
@@ -118,31 +119,29 @@ class _ListLessonState extends State<ListLesson> {
               ),
             ),
             Container(
-              margin: EdgeInsets.fromLTRB(10, 0, 15, 0),
-              child: Material(
-                color: Colors.white,
-                child: Center(
-                  child: Ink(
-                    decoration: ShapeDecoration(
-                      color: Colors.blue[800],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
+                margin: EdgeInsets.fromLTRB(10, 90, 15, 0),
+                child: Material(
+                  color: Colors.white,
+                  child: Center(
+                    child: Ink(
+                      decoration: ShapeDecoration(
+                        color: Colors.blue[800],
+                        shape: CircleBorder(),
                       ),
-                    ),
-                    child: IconButton(
-                      icon: const Icon(Icons.add),
-                      color: Colors.white,
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AddLesson()));
-                      },
+                      child: IconButton(
+                        icon: const Icon(Icons.add),
+                        color: Colors.white,
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AddLesson()));
+                        },
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
           ],
         ),
       ),
@@ -156,10 +155,51 @@ class _ListLessonState extends State<ListLesson> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // Container(
+              //   margin: EdgeInsets.fromLTRB(15, 90, 0, 0),
+              //   child: Align(
+              //     alignment: Alignment.topLeft,
+              //     child: Text('List of Subject(s)',
+              //         style: GoogleFonts.nunito(
+              //             textStyle: TextStyle(
+              //                 fontSize: 32,
+              //                 fontWeight: FontWeight.w900,
+              //                 color: Colors.blue[800]))),
+              //   ),
+              // ),
+              Container(
+                margin: EdgeInsets.fromLTRB(10, 90, 15, 0),
+                child: Material(
+                  color: Colors.white,
+                  child: Center(
+                    child: Ink(
+                      decoration: ShapeDecoration(
+                        color: Colors.blue[800],
+                        shape: CircleBorder(),
+                      ),
+                      child: IconButton(
+                        icon: const Icon(Icons.add),
+                        color: Colors.white,
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AddLesson()));
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
           Expanded(
             flex: 2,
             child: Container(
-              margin: EdgeInsets.fromLTRB(20, 30, 20, 0),
+              margin: EdgeInsets.fromLTRB(20, 5, 20, 0),
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(

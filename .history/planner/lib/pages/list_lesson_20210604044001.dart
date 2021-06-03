@@ -23,7 +23,6 @@ class _ListLessonState extends State<ListLesson> {
   List<Lesson> data = [];
   Map<String, dynamic> verifyMap;
   Map<String, dynamic> lessonList;
-  Color _shadeColor = Colors.blue[800];
 
   // Methods
   Future getUserID() async {
@@ -74,80 +73,7 @@ class _ListLessonState extends State<ListLesson> {
   // Widgets
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
-        elevation: 0.0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              width: 45,
-              height: 45,
-              margin: EdgeInsets.all(15.0),
-              child: IconButton(
-                  icon: Icon(
-                    Icons.chevron_left,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  }),
-              decoration: BoxDecoration(
-                color: _shadeColor,
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: _shadeColor),
-              ),
-            ),
-            Align(
-              alignment: Alignment.center,
-              child: Center(
-                child: Text(
-                  'Subject(s)',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.openSans(
-                    textStyle: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w900,
-                      color: _shadeColor,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.fromLTRB(10, 0, 15, 0),
-              child: Material(
-                color: Colors.white,
-                child: Center(
-                  child: Ink(
-                    decoration: ShapeDecoration(
-                      color: Colors.blue[800],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                    ),
-                    child: IconButton(
-                      icon: const Icon(Icons.add),
-                      color: Colors.white,
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AddLesson()));
-                      },
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-      body: buildMainContainer(),
-    );
+    return Scaffold(body: buildMainContainer());
   }
 
   Widget buildMainContainer() {
@@ -156,10 +82,51 @@ class _ListLessonState extends State<ListLesson> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                margin: EdgeInsets.fromLTRB(15, 90, 0, 0),
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Text('List of Subject(s)',
+                      style: GoogleFonts.nunito(
+                          textStyle: TextStyle(
+                              fontSize: 32,
+                              fontWeight: FontWeight.w900,
+                              color: Colors.blue[800]))),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.fromLTRB(10, 60, 15, 0),
+                child: Material(
+                  color: Colors.white,
+                  child: Center(
+                    child: Ink(
+                      decoration: ShapeDecoration(
+                        color: Colors.blue[800],
+                        shape: CircleBorder(),
+                      ),
+                      child: IconButton(
+                        icon: const Icon(Icons.add),
+                        color: Colors.white,
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AddLesson()));
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
           Expanded(
             flex: 2,
             child: Container(
-              margin: EdgeInsets.fromLTRB(20, 30, 20, 0),
+              margin: EdgeInsets.fromLTRB(20, 5, 20, 0),
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
@@ -183,9 +150,9 @@ class _ListLessonState extends State<ListLesson> {
   Widget buildList(Lesson) {
     return Card(
       elevation: 4,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0),
-      ),
+      shape: RoundedRectangleBorder(  
+            borderRadius: BorderRadius.circular(15.0),  
+          ),
       child: Padding(
         padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
         child:

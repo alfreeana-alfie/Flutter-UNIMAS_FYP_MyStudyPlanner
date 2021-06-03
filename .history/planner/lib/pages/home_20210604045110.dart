@@ -245,7 +245,7 @@ class _HomepageState extends State<Homepage> {
                     ElevatedButton(
                       onPressed: () {
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => ListLesson()));
+                            MaterialPageRoute(builder: (context) => ListLesson()()));
                       },
                       child: Text(
                         'See All',
