@@ -126,9 +126,9 @@ class _ListLessonState extends State<ListLesson> {
           Expanded(
             flex: 2,
             child: Container(
-              margin: EdgeInsets.fromLTRB(20, 5, 20, 0),
+              margin: EdgeInsets.fromLTRB(0, 5, 0, 0),
               decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Colors.blue[50],
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(10),
                       topRight: Radius.circular(10))),
@@ -148,51 +148,45 @@ class _ListLessonState extends State<ListLesson> {
   }
 
   Widget buildList(Lesson) {
-    return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(  
-            borderRadius: BorderRadius.circular(15.0),  
-          ),
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-        child:
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          AvatarLetter(
-            size: 50,
-            backgroundColor: Colors.blue[100],
-            textColor: Colors.blue[300],
-            fontSize: 24,
-            upperCase: true,
-            numberLetters: 2,
-            letterType: LetterType.Rectangle,
-            text: Lesson.name,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: 250,
-                child: Text(
-                  Lesson.name,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  softWrap: false,
-                  style: GoogleFonts.openSans(
-                    textStyle:
-                        TextStyle(fontSize: 17, fontWeight: FontWeight.w900),
-                  ),
+    return Padding(
+      padding: EdgeInsets.fromLTRB(5, 0, 5, 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        AvatarLetter(
+          size: 50,
+          backgroundColor: Colors.blue[100],
+          textColor: Colors.blue[300],
+          fontSize: 24,
+          upperCase: true,
+          numberLetters: 2,
+          letterType: LetterType.Rectangle,
+          text: Lesson.name,
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: 250,
+              child: Text(
+                Lesson.name,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                softWrap: false,
+                style: GoogleFonts.openSans(
+                  textStyle:
+                      TextStyle(fontSize: 17, fontWeight: FontWeight.w900),
                 ),
               ),
-            ],
-          ),
-          IconButton(
-            onPressed: () {
-              print('Annnouncement clicked');
-            },
-            icon: Icon(Icons.arrow_right),
-          ),
-        ]),
-      ),
+            ),
+          ],
+        ),
+        IconButton(
+          onPressed: () {
+            print('Annnouncement clicked');
+          },
+          icon: Icon(Icons.arrow_right),
+        ),
+      ]),
     );
   }
 }

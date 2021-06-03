@@ -111,11 +111,6 @@ class _HomepageState extends State<Homepage> {
     getUserID();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(body: buildMainContainer());
-  }
-
   Widget buildMainContainer() {
     return Container(
         decoration: BoxDecoration(

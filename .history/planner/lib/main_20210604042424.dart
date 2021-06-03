@@ -31,6 +31,6 @@ Future<void> main() async {
   
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: status == true ? ListLesson() : Login(),
+    home: status == true ? ListLesson()() : Login(),
   ));
 }

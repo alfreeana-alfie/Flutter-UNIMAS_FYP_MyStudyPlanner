@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:MyUni/auth/sign_in.dart';
 import 'package:MyUni/pages/add_lesson.dart';
-import 'package:MyUni/pages/list_lesson.dart';
 import 'package:MyUni/pages/main_screen.dart';
 import 'package:MyUni/pages/timetable.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +30,6 @@ Future<void> main() async {
   
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: status == true ? ListLesson() : Login(),
+    home: status == true ? List() : Login(),
   ));
 }

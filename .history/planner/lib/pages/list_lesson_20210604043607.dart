@@ -149,12 +149,14 @@ class _ListLessonState extends State<ListLesson> {
 
   Widget buildList(Lesson) {
     return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(  
-            borderRadius: BorderRadius.circular(15.0),  
-          ),
+      elevation: 2,
+      shape: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10))),,
       child: Padding(
-        padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+        padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           AvatarLetter(

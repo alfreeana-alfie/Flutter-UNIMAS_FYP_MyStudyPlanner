@@ -22,7 +22,7 @@ class _HomepageState extends State<Homepage> {
   // Variables
   int _selectedIndex = 0;
   int userID;
-  String name;
+  Striasdng name;
   String matric_no;
   String imageURL = "";
 
@@ -109,11 +109,6 @@ class _HomepageState extends State<Homepage> {
   void initState() {
     super.initState();
     getUserID();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(body: buildMainContainer());
   }
 
   Widget buildMainContainer() {
@@ -406,5 +401,8 @@ class _HomepageState extends State<Homepage> {
         ));
   }
 
-  
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(body: buildMainContainer());
+  }
 }
