@@ -1,46 +1,83 @@
-import 'package:MyUni/auth/sign_in.dart';
 import 'package:flutter/material.dart';
-import 'package:MyUni/auth/sign_up_address.dart';
+import 'package:MyUni/auth/sign_in.dart';
+import 'package:http/http.dart' as http;
 import 'package:oktoast/oktoast.dart';
 import 'package:flutter/gestures.dart';
 
-class Register extends StatefulWidget {
+class RegisterAddress extends StatefulWidget {
+  //User Part
+  String name;
+  String email;
+  String password;
+  String matricNo;
+  String phoneNo;
+
+  RegisterAddress(
+      {Key key,
+      this.name,
+      this.email,
+      this.password,
+      this.matricNo,
+      this.phoneNo})
+      : super(key: key);
+
   @override
-  _RegisterState createState() => _RegisterState();
+  _RegisterAddressState createState() => _RegisterAddressState();
 }
 
-class _RegisterState extends State<Register> with TickerProviderStateMixin {
+class _RegisterAddressState extends State<RegisterAddress> {
+  //Address Part
+  String address = "";
+  String otherAddress = "";
+  String postcode = "";
+  String city = "";
+  String state = "";
+  String country = "";
 
   // Variables
-  AnimationController controller;
-  Animation<double> animation;
-
-  String name = "";
-  String email = "";
-  String password = "";
-  String passwordConfirm = "";
-  String matricNo = "";
-  String phoneNo = "";
-
   final _formKey = GlobalKey<FormState>();
 
   // Methods
-  @override
-  void initState() {
-    super.initState();
-    controller =
-        AnimationController(duration: Duration(seconds: 2), vsync: this);
-    animation = CurvedAnimation(parent: controller, curve: Curves.easeIn);
-    controller.forward();
+  void register() async {
+    Uri register =
+        Uri.parse("https://hawkingnight.com/planner/public/api/register");
+    final response = await http.post(register, headers: {
+      "Accept": "application/json"
+    }, body: {
+      'name': widget.name,
+      'email': widget.email,
+      'password': widget.password,
+      'matric_no': widget.matricNo,
+      'phone_no': widget.phoneNo,
+      'image': 'https://hawkingnight.com/planner/assets/user.png',
+      'address': address,
+      'other_address': otherAddress,
+      'postcode': postcode,
+      'city': city,
+      'state': state,
+      'country': country
+    });
+
+    if (response.statusCode == 201) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Success!")));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+    } else {
+      // print(response.statusCode);
+      // print(response.body);
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(response.body)));
+    }
   }
 
-  // Inner Widget
+  // Widget
+
   // build
   @override
   Widget build(BuildContext context) {
     return OKToast(child: Scaffold(body: buildMainContainer()));
   }
-
+  
   Widget buildMainContainer() {
     return Container(
         decoration: BoxDecoration(
@@ -65,32 +102,57 @@ class _RegisterState extends State<Register> with TickerProviderStateMixin {
         color: Colors.white,
         borderRadius: BorderRadius.circular(20.0),
         child: Form(
-          key: _formKey,
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              child: Column(
-                children: [
-                  buildName(),
-                  buildEmail(),
-                  buildPassword(),
-                  buildConfirmPassword(),
-                  buildPhoneNo(),
-                  buildMatricNo(),
-                  buildNextButton(),
-                  buildSignIn(),
-                ],
-              ),
-            )
-          )
-        ),
+            key: _formKey,
+            child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  child: Column(
+                    children: [
+                      buildAddress(),
+                      buildOtherAddress(),
+                      buildCity(),
+                      buildState(),
+                      buildCountry(),
+                      buildNextButton(),
+                      buildSignIn(),
+                    ],
+                  ),
+                ))),
       ),
     );
   }
 
-  Widget buildName() {
+  Widget buildTitle() {
     return Container(
-        margin: EdgeInsets.fromLTRB(20, 50, 20, 10),
+        margin: EdgeInsets.fromLTRB(20, 110, 30, 0),
+        child: Column(
+          children: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text('Create an Account',
+                  style: TextStyle(
+                      fontFamily: 'Metropolis',
+                      fontWeight: FontWeight.w800,
+                      color: Colors.white,
+                      fontSize: 42)),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, 10, 20, 0),
+              child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text('Enter a beautiful world',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontFamily: 'Metropolis'))),
+            )
+          ],
+        ));
+  }
+
+  Widget buildAddress() {
+    return Container(
+        margin: EdgeInsets.fromLTRB(10, 50, 10, 10),
         decoration: BoxDecoration(
             color: Colors.grey[200], borderRadius: BorderRadius.circular(10.0)),
         child: Padding(
@@ -99,25 +161,25 @@ class _RegisterState extends State<Register> with TickerProviderStateMixin {
               style: TextStyle(fontFamily: 'Open Sans', fontSize: 16),
               decoration: InputDecoration(
                   contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  labelText: 'Full Name',
+                  labelText: 'Address',
                   border: InputBorder.none),
               onChanged: (value) {
                 setState(() {
-                  name = value;
+                  address = value;
                 });
               },
               validator: (val) {
                 if (val.isEmpty) {
-                  return 'Full Name is empty!';
+                  return 'Address is empty!';
                 }
                 return null;
               }),
         ));
   }
 
-  Widget buildEmail() {
+  Widget buildOtherAddress() {
     return Container(
-        margin: EdgeInsets.fromLTRB(20, 0, 20, 10),
+        margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
         decoration: BoxDecoration(
             color: Colors.grey[200], borderRadius: BorderRadius.circular(10.0)),
         child: Padding(
@@ -126,25 +188,25 @@ class _RegisterState extends State<Register> with TickerProviderStateMixin {
               style: TextStyle(fontFamily: 'Open Sans', fontSize: 16),
               decoration: InputDecoration(
                   contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  labelText: 'Email',
+                  labelText: 'Other Address',
                   border: InputBorder.none),
               onChanged: (value) {
                 setState(() {
-                  email = value;
+                  otherAddress = value;
                 });
               },
               validator: (val) {
                 if (val.isEmpty) {
-                  return 'Email is empty!';
+                  return 'Other Address is empty!';
                 }
                 return null;
               }),
         ));
   }
 
-  Widget buildPassword() {
+  Widget buildCity() {
     return Container(
-        margin: EdgeInsets.fromLTRB(20, 0, 20, 10),
+        margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
         decoration: BoxDecoration(
             color: Colors.grey[200], borderRadius: BorderRadius.circular(10.0)),
         child: Padding(
@@ -153,25 +215,25 @@ class _RegisterState extends State<Register> with TickerProviderStateMixin {
               style: TextStyle(fontFamily: 'Open Sans', fontSize: 16),
               decoration: InputDecoration(
                   contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  labelText: 'Password',
+                  labelText: 'City',
                   border: InputBorder.none),
               onChanged: (value) {
                 setState(() {
-                  password = value;
+                  city = value;
                 });
               },
               validator: (val) {
                 if (val.isEmpty) {
-                  return 'Password is empty!';
+                  return 'City is empty!';
                 }
                 return null;
               }),
         ));
   }
 
-  Widget buildConfirmPassword() {
+  Widget buildState() {
     return Container(
-        margin: EdgeInsets.fromLTRB(20, 0, 20, 10),
+        margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
         decoration: BoxDecoration(
             color: Colors.grey[200], borderRadius: BorderRadius.circular(10.0)),
         child: Padding(
@@ -180,27 +242,25 @@ class _RegisterState extends State<Register> with TickerProviderStateMixin {
               style: TextStyle(fontFamily: 'Open Sans', fontSize: 16),
               decoration: InputDecoration(
                   contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  labelText: 'Confirm Password',
+                  labelText: 'State',
                   border: InputBorder.none),
               onChanged: (value) {
                 setState(() {
-                  passwordConfirm = value;
+                  state = value;
                 });
               },
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Confirm Password is empty!';
-                } else if (value != password) {
-                  return 'Not match with Password!';
+              validator: (val) {
+                if (val.isEmpty) {
+                  return 'State is empty!';
                 }
                 return null;
               }),
         ));
   }
 
-  Widget buildPhoneNo() {
+  Widget buildCountry() {
     return Container(
-        margin: EdgeInsets.fromLTRB(20, 0, 20, 10),
+        margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
         decoration: BoxDecoration(
             color: Colors.grey[200], borderRadius: BorderRadius.circular(10.0)),
         child: Padding(
@@ -209,43 +269,16 @@ class _RegisterState extends State<Register> with TickerProviderStateMixin {
               style: TextStyle(fontFamily: 'Open Sans', fontSize: 16),
               decoration: InputDecoration(
                   contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  labelText: 'Phone No',
+                  labelText: 'Country',
                   border: InputBorder.none),
               onChanged: (value) {
                 setState(() {
-                  phoneNo = value;
+                  country = value;
                 });
               },
               validator: (val) {
                 if (val.isEmpty) {
-                  return 'Phone No is empty!';
-                }
-                return null;
-              }),
-        ));
-  }
-
-  Widget buildMatricNo() {
-    return Container(
-        margin: EdgeInsets.fromLTRB(20, 0, 20, 10),
-        decoration: BoxDecoration(
-            color: Colors.grey[200], borderRadius: BorderRadius.circular(10.0)),
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
-          child: TextFormField(
-              style: TextStyle(fontFamily: 'Open Sans', fontSize: 16),
-              decoration: InputDecoration(
-                  contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  labelText: 'Matric No',
-                  border: InputBorder.none),
-              onChanged: (value) {
-                setState(() {
-                  matricNo = value;
-                });
-              },
-              validator: (val) {
-                if (val.isEmpty) {
-                  return 'Matric No is empty!';
+                  return 'Country is empty!';
                 }
                 return null;
               }),
@@ -254,7 +287,7 @@ class _RegisterState extends State<Register> with TickerProviderStateMixin {
 
   Widget buildNextButton() {
     return Container(
-      margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
+      margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -269,59 +302,19 @@ class _RegisterState extends State<Register> with TickerProviderStateMixin {
               ),
               onPressed: () {
                 if (_formKey.currentState.validate()) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => RegisterAddress(
-                            name: name,
-                            email: email,
-                            password: password,
-                            matricNo: matricNo,
-                            phoneNo: phoneNo)),
-                  );
+                  register();
                 } else {
                   ScaffoldMessenger.of(context)
                       .showSnackBar(SnackBar(content: Text("Error!")));
                 }
               },
-              child: Text('NEXT',
+              child: Text('SIGN UP',
                   style: TextStyle(fontSize: 18, fontFamily: 'Open Sans')),
             ),
           )
         ],
       )
     );
-  }
-
-  Widget buildTitle() {
-    return Container(
-      margin: EdgeInsets.fromLTRB(20, 110, 30, 0),
-      child: Column(
-        children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text('Create an Account',
-              style: TextStyle(
-                fontFamily: 'Metropolis',
-                fontWeight: FontWeight.w800,
-                color: Colors.white,
-                fontSize: 42
-              )
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(0, 10, 20, 0),
-            child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text('Enter a beautiful world',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24, 
-                fontFamily: 'Metropolis'))  
-            ),
-          )
-        ],
-    ));
   }
 
   Widget buildSignIn() {

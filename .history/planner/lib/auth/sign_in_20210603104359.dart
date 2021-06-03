@@ -69,7 +69,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => MainScreen()));
       } else {
-        print('Failed to fetch');
+       print('Failed to fetch');
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text("Incorrect Matric No or Password")));
       }
@@ -79,11 +79,6 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
   }
 
   // Inner Widget
-  @override
-  Widget build(BuildContext context) {
-    return OKToast(child: Scaffold(body: buildMainContainer()));
-  }
-  
   Widget buildMainContainer() {
     return Container(
       decoration: BoxDecoration(
@@ -324,5 +319,8 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
     );
   }
 
-  
+  @override
+  Widget build(BuildContext context) {
+    return OKToast(child: Scaffold(body: buildMainContainer()));
+  }
 }

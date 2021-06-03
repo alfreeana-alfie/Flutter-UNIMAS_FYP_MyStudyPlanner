@@ -11,12 +11,7 @@ class _ListLessonState extends State<ListLesson> {
   String userID = '';
   List<Lesson> data = [];
   Map<String, dynamic> verifyMap;
-  Map<String, dynamic> lessonList;
-
   // Methods
-  void getLesson() async{
-
-  }
 
   // Widgets
   @override

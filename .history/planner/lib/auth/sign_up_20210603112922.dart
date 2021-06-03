@@ -368,5 +368,5 @@ class _RegisterState extends State<Register> with TickerProviderStateMixin {
           )),
     );
   }
-
+  
 }

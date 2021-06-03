@@ -40,7 +40,7 @@ class _RegisterState extends State<Register> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return OKToast(child: Scaffold(body: buildMainContainer()));
   }
-
+  
   Widget buildMainContainer() {
     return Container(
         decoration: BoxDecoration(
@@ -369,4 +369,5 @@ class _RegisterState extends State<Register> with TickerProviderStateMixin {
     );
   }
 
+  
 }

@@ -79,11 +79,6 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
   }
 
   // Inner Widget
-  @override
-  Widget build(BuildContext context) {
-    return OKToast(child: Scaffold(body: buildMainContainer()));
-  }
-  
   Widget buildMainContainer() {
     return Container(
       decoration: BoxDecoration(

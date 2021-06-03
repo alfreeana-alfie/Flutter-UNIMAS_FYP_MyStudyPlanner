@@ -14,8 +14,8 @@ class _ListLessonState extends State<ListLesson> {
   Map<String, dynamic> lessonList;
 
   // Methods
-  void getLesson() async{
-
+  void getLesson() {
+    
   }
 
   // Widgets
