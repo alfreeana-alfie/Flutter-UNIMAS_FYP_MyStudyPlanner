@@ -382,7 +382,7 @@ class _LessonDetailsState extends State<LessonDetails> {
               'Day: ',
               style: GoogleFonts.openSans(
                   textStyle:
-                      TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.grey[700]),),
+                      TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Colors.grey[700]),),
             ),
             Text(
               widget.lessons.day,

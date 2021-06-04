@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:MyUni/models/Lesson.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -32,7 +33,6 @@ class _LessonDetailsState extends State<LessonDetails> {
   final _formKey = GlobalKey<FormState>();
 
   Color _tempShadeColor;
-
   Color _shadeColor = Colors.blue[800];
 
   // Methods
@@ -69,11 +69,6 @@ class _LessonDetailsState extends State<LessonDetails> {
   // Widget
   @override
   Widget build(BuildContext context) {
-    String colorString = widget.lessons.color;
-    String valueString = colorString.split('(0x')[1].split(')')[0];
-    int value = int.parse(valueString, radix: 16);
-    _shadeColor = new Color(value);
-
     return OKToast(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -268,7 +263,7 @@ class _LessonDetailsState extends State<LessonDetails> {
       child: Column(
         children: [
           TextFormField(
-              initialValue: widget.lessons.type,
+            initialValue: widget.lessons.type,
               decoration: InputDecoration(
                 labelText: 'Type (Eg: Lecture)',
               ),
@@ -284,7 +279,7 @@ class _LessonDetailsState extends State<LessonDetails> {
                 return null;
               }),
           TextFormField(
-              initialValue: widget.lessons.teacher,
+            initialValue: widget.lessons.teacher,
               decoration: InputDecoration(
                 labelText: 'Teacher (Eg: Mr. Example)',
               ),
@@ -300,7 +295,6 @@ class _LessonDetailsState extends State<LessonDetails> {
                 return null;
               }),
           TextFormField(
-              initialValue: widget.lessons.place,
               decoration: InputDecoration(
                 labelText: 'Place (Eg: MM1 Lab)',
               ),
@@ -375,62 +369,22 @@ class _LessonDetailsState extends State<LessonDetails> {
   Widget dayPicker() {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(10, 10, 0, 10),
-        child: Row(
-          children: [
-            Text(
-              'Day: ',
-              style: GoogleFonts.openSans(
-                  textStyle:
-                      TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.grey[700]),),
-            ),
-            Text(
-              widget.lessons.day,
-              style: GoogleFonts.openSans(
-                  textStyle:
-                      TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.grey[700]),),
-            ),
-          ],
+        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+        child: SelectWeekDays(
+          border: false,
+          boxDecoration: BoxDecoration(color: _shadeColor),
+          onSelect: (values) {
+            // <== Callback to handle the selected days
+            day = values[0];
+            print(values[0]);
+          },
         ),
       ),
     );
-
-    // return Center(
-    //   child: Padding(
-    //     padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-    //     child: SelectWeekDays(
-    //       border: false,
-    //       boxDecoration: BoxDecoration(color: _shadeColor),
-    //       onSelect: (values) {
-    //         setState(() {
-    //           values[0] = widget.lessons.day;
-    //         });
-    //         // <== Callback to handle the selected days
-    //         day = values[0];
-    //         print(values[0]);
-    //       },
-    //     ),
-    //   ),
-    // );
   }
 
   Widget timeRangePicker() {
-    // Start Time
-    String _startTimeSTR = widget.lessons.startTime;
-    int _startTimeHour = int.parse(_startTimeSTR.split(":")[0]);
-    int _startTimeMin = int.parse(_startTimeSTR.split(":")[1].split(" ")[0]);
-
-    // End Time
-    String _endTimeSTR = widget.lessons.endTime;
-    int _endTimeHour = int.parse(_endTimeSTR.split(":")[0]);
-    int _endTimeMin = int.parse(_endTimeSTR.split(":")[1].split(" ")[0]);
-
-    TimeOfDay _startTime =
-        TimeOfDay(hour: _startTimeHour, minute: _startTimeMin);
-    TimeOfDay _endTime = TimeOfDay(hour: _endTimeHour, minute: _endTimeMin);
-
     return TimeRange(
-      initialRange: TimeRangeResult(_startTime, _endTime),
       fromTitle: Text('From',
           style: GoogleFonts.openSans(fontSize: 14, color: Colors.black45)),
       toTitle: Text(
@@ -439,8 +393,8 @@ class _LessonDetailsState extends State<LessonDetails> {
       ),
       titlePadding: 15,
       textStyle: TextStyle(fontWeight: FontWeight.normal, color: _shadeColor),
-      activeTextStyle: TextStyle(
-          fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white),
+      activeTextStyle:
+          TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
       activeBorderColor: _shadeColor,
       borderColor: _shadeColor,
       backgroundColor: Colors.transparent,

@@ -381,14 +381,14 @@ class _LessonDetailsState extends State<LessonDetails> {
             Text(
               'Day: ',
               style: GoogleFonts.openSans(
-                  textStyle:
-                      TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.grey[700]),),
+                textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
+              ),
             ),
             Text(
               widget.lessons.day,
               style: GoogleFonts.openSans(
-                  textStyle:
-                      TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.grey[700]),),
+                textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
+              ),
             ),
           ],
         ),

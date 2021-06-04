@@ -200,32 +200,31 @@ class _HomepageState extends State<Homepage> {
 
     return Container(
       margin: EdgeInsets.only(right: 10.0),
-      child: Column(children: [
-        AvatarLetter(
-            size: 75,
-            backgroundColor: lessonColor,
-            textColor: Colors.white,
-            fontSize: 32,
-            upperCase: true,
-            numberLetters: 2,
-            letterType: LetterType.Circular,
-            text: Lesson.name),
-        Padding(
-          padding: EdgeInsets.only(top: 2),
-          child: SizedBox(
-            width: 50,
-            child: Center(
-                child: Text(Lesson.name,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    softWrap: false,
-                    style: GoogleFonts.openSans(
-                        textStyle: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w500)))),
-          ),
+        child: Column(children: [
+      AvatarLetter(
+          size: 75,
+          backgroundColor: lessonColor,
+          textColor: Colors.white,
+          fontSize: 32,
+          upperCase: true,
+          numberLetters: 2,
+          letterType: LetterType.Circular,
+          text: Lesson.name),
+      Padding(
+        padding: EdgeInsets.only(top: 2),
+        child: SizedBox(
+          width: 50,
+          child: Center(
+              child: Text(Lesson.name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  softWrap: false,
+                  style: GoogleFonts.openSans(
+                      textStyle: TextStyle(
+                          fontSize: 14, fontWeight: FontWeight.w500)))),
         ),
-      ]),
-    );
+      ),
+    ]),);
   }
 
   Widget buildLessonList() {
