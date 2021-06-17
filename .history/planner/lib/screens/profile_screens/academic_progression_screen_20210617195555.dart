@@ -57,6 +57,12 @@ class _ProgressionState extends State<Progression> {
     }
   }
 
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   getUserID();
+  // }
+
   // Widgets
   @override
   Widget build(BuildContext context) {

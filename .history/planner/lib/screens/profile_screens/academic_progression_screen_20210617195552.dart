@@ -47,6 +47,8 @@ class _ProgressionState extends State<Progression> {
           final lessons = Lesson.fromMap(lessonMap);
           if (this.mounted) {
               data.add(lessons);
+            // setState(() {
+            // });
           }
         }
       } else {
@@ -56,6 +58,12 @@ class _ProgressionState extends State<Progression> {
       throw Exception('Unable to fetch data from the REST API');
     }
   }
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   getUserID();
+  // }
 
   // Widgets
   @override
