@@ -1,6 +1,7 @@
 import 'dart:io';
-import 'package:MyUni/screens/auth/sign_in.dart';
+import 'package:MyUni/auth/sign_in.dart';
 import 'package:MyUni/screens/main_screen.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';

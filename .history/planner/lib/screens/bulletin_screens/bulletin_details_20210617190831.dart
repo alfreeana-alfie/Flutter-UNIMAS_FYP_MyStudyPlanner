@@ -5,8 +5,9 @@ import 'package:intl/intl.dart';
 
 class BulletinDetails extends StatelessWidget {
   final News announcements;
+  final Colors 
 
-  BulletinDetails({Key key, this.announcements}) : super(key: key);
+  BulletinDetails({Key key, this.announcements, this.}) : super(key: key);
 
   // Widgets
   @override
@@ -15,7 +16,7 @@ class BulletinDetails extends StatelessWidget {
         appBar: AppBar(
             elevation: 0.0,
             title: Text('News'),
-            backgroundColor: Colors.red[800]),
+            backgroundColor: Colors.yellow[900]),
         body: buildMainContainer());
   }
 

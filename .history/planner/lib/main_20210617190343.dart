@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:MyUni/screens/auth/sign_in.dart';
 import 'package:MyUni/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

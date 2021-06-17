@@ -1,16 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:oktoast/oktoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/animation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:MyUni/auth/sign_up.dart';
-import 'package:MyUni/auth/verify_email.dart';
 import 'package:MyUni/models/User.dart';
 import 'package:MyUni/models/Verify.dart';
-import 'package:MyUni/pages/main_screen.dart';
+import 'package:MyUni/screens/main_screen.dart';
 
 class Login extends StatefulWidget {
   @override
