@@ -191,7 +191,7 @@ class _ProgressionState extends State<Progression> {
             return Center(child: Text('Error: ${snapshot.error}'));
           else
             return Container(
-              height: 190,
+              height: 100,
               child: ListView(
                 shrinkWrap: true,
                 children: data.map(

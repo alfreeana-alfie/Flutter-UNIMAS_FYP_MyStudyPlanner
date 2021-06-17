@@ -118,58 +118,60 @@ class _ProgressionState extends State<Progression> {
   }
 
   Widget buildMainContainer() {
-    return Container(
-      padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
-      color: Colors.white,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          buildPieChart(),
-          buildLineChart(),
-          Expanded(
-            flex: 1,
-            child: Container(
-              margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
-              child: Material(
-                elevation: 3,
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(7), topRight: Radius.circular(7)),
-                // borderRadius: BorderRadius.horizontal(left: Radius.circular(20), right:Radius.circular(20)),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.fromLTRB(20, 10, 20, 5),
-                      child: Text(
-                        'Subject(s) Taken',
-                        style: GoogleFonts.openSans(
-                            textStyle: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 16,
-                        )),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Container(
-                        margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                        width: 100,
-                        height: 4,
-                        decoration: BoxDecoration(
-                          color: Colors.red[400],
-                          borderRadius: BorderRadius.circular(20.0),
+    return widget(
+      child: Container(
+        padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
+        color: Colors.white,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            buildPieChart(),
+            buildLineChart(),
+            Expanded(
+              flex: 1,
+              child: Container(
+                margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                child: Material(
+                  elevation: 3,
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(7), topRight: Radius.circular(7)),
+                  // borderRadius: BorderRadius.horizontal(left: Radius.circular(20), right:Radius.circular(20)),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.fromLTRB(20, 10, 20, 5),
+                        child: Text(
+                          'Subject(s) Taken',
+                          style: GoogleFonts.openSans(
+                              textStyle: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 16,
+                          )),
                         ),
                       ),
-                    ),
-                    getLesson()
-                  ],
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Container(
+                          margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                          width: 100,
+                          height: 4,
+                          decoration: BoxDecoration(
+                            color: Colors.red[400],
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                        ),
+                      ),
+                      getLesson()
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -190,16 +192,13 @@ class _ProgressionState extends State<Progression> {
           if (snapshot.hasError)
             return Center(child: Text('Error: ${snapshot.error}'));
           else
-            return Container(
-              height: 190,
-              child: ListView(
-                shrinkWrap: true,
-                children: data.map(
-                  (p) {
-                    return buildList(p);
-                  },
-                ).toList(),
-              ),
+            return ListView(
+              shrinkWrap: true,
+              children: data.map(
+                (p) {
+                  return buildList(p);
+                },
+              ).toList(),
             );
         }
       },
@@ -571,9 +570,10 @@ class _ProgressionState extends State<Progression> {
                     '${Lesson.abbr} - ${Lesson.name}',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
+                    softWrap: false,
                     style: GoogleFonts.openSans(
                       textStyle:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                     ),
                   ),
                 ),

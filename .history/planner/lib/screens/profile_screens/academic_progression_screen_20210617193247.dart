@@ -190,16 +190,12 @@ class _ProgressionState extends State<Progression> {
           if (snapshot.hasError)
             return Center(child: Text('Error: ${snapshot.error}'));
           else
-            return Container(
-              height: 190,
-              child: ListView(
-                shrinkWrap: true,
-                children: data.map(
-                  (p) {
-                    return buildList(p);
-                  },
-                ).toList(),
-              ),
+            return ListView(
+              children: data.map(
+                (p) {
+                  return buildList(p);
+                },
+              ).toList(),
             );
         }
       },
@@ -558,7 +554,7 @@ class _ProgressionState extends State<Progression> {
   Widget buildList(Lesson) {
     return Container(
       child: Padding(
-        padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+        padding: EdgeInsets.fromLTRB(10, 10, 10, 20),
         child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -571,9 +567,10 @@ class _ProgressionState extends State<Progression> {
                     '${Lesson.abbr} - ${Lesson.name}',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
+                    softWrap: false,
                     style: GoogleFonts.openSans(
                       textStyle:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                     ),
                   ),
                 ),

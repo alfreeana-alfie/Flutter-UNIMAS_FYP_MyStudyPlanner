@@ -50,17 +50,17 @@ class _ProfileDetailState extends State<ProfileDetail> {
   // final icons = isEnabled == true ? Icon(Icons.edit) : Icon(Icons.save);
 
   // Methods
-  // Future getData() async {
+  Future getData() async {
     
-  //   if (this.mounted) {
+    if (this.mounted) {
         
 
-  //       getDataAPI();
-  //       getAddress();
-  //     // setState(() {
-  //     // });
-  //   }
-  // }
+        getDataAPI();
+        getAddress();
+      // setState(() {
+      // });
+    }
+  }
 
   Future getDataAPI() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -271,7 +271,7 @@ class _ProfileDetailState extends State<ProfileDetail> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
             child: CircularProgressIndicator(
-              color: Colors.blue[800],
+              color: Colors.green[800],
             ),
             
           );
@@ -320,11 +320,9 @@ class _ProfileDetailState extends State<ProfileDetail> {
       child: Center(
           // alignment: Alignment.centerLeft,
           child: CircleAvatar(
-                  radius: 50,
-                  // backgroundImage: NetworkImage("$imageURL"),
-                  backgroundColor: Colors.transparent,
-                  child: Image.network("$imageURL"),
-                )),
+        radius: 50,
+        backgroundImage: NetworkImage(imageURL),
+      )),
     );
   }
 

@@ -50,22 +50,19 @@ class _ProfileDetailState extends State<ProfileDetail> {
   // final icons = isEnabled == true ? Icon(Icons.edit) : Icon(Icons.save);
 
   // Methods
-  // Future getData() async {
-    
-  //   if (this.mounted) {
-        
+  Future getData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (this.mounted) {
+      setState(() {
+        userID = prefs.getInt('userID');
 
-  //       getDataAPI();
-  //       getAddress();
-  //     // setState(() {
-  //     // });
-  //   }
-  // }
+        getDataAPI();
+        getAddress();
+      });
+    }
+  }
 
   Future getDataAPI() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    userID = prefs.getInt('userID');
-
     Uri getAPILink =
         Uri.parse("https://hawkingnight.com/planner/public/api/user/$userID");
 
@@ -81,6 +78,7 @@ class _ProfileDetailState extends State<ProfileDetail> {
         var userData = User.fromJSON(userMap);
 
         if (this.mounted) {
+          setState(() {
             nameController.text = userData.name;
             emailController.text = userData.email;
             phoneNoController.text = userData.phone_no;
@@ -91,10 +89,7 @@ class _ProfileDetailState extends State<ProfileDetail> {
             phoneNo = userData.phone_no;
             matricNo = userData.matric_no;
             imageURL = userData.image;
-
-            getAddress();
-          // setState(() {
-          // });
+          });
         }
       } else {
         print('FAILED');
@@ -120,6 +115,7 @@ class _ProfileDetailState extends State<ProfileDetail> {
         var addressData = Address.fromJSON(addressMap);
 
         if (this.mounted) {
+          setState(() {
             addressController.text = addressData.address;
             otherAddressController.text = addressData.other_address;
             postcodeController.text = addressData.postcode;
@@ -133,8 +129,7 @@ class _ProfileDetailState extends State<ProfileDetail> {
             city = addressData.city;
             state = addressData.state;
             country = addressData.country;
-          // setState(() {
-          // });
+          });
         }
       } else {
         print('FAILED');
@@ -187,11 +182,11 @@ class _ProfileDetailState extends State<ProfileDetail> {
         context, MaterialPageRoute(builder: (BuildContext ctx) => Login()));
   }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   getData();
-  // }
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
 
   // Widgets
   @override
@@ -259,32 +254,12 @@ class _ProfileDetailState extends State<ProfileDetail> {
         backgroundColor: Colors.white,
         elevation: 0.0,
       ),
-      body: getForm(),
+      body: buildMainContainer(),
     );
   }
 
-  Widget getForm() {
-    return FutureBuilder(
-      future: getDataAPI(),
-      builder: (context, snapshot) {
-        print(snapshot.toString());
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: CircularProgressIndicator(
-              color: Colors.blue[800],
-            ),
-            
-          );
-        } else {
-          if (snapshot.hasError)
-            return Center(child: Text('Error: ${snapshot.error}'));
-          else
-            return buildMainContainer();
-        }
-      },
-    );
-  }
-
+  Widget getForm() {}
+  
 
   Widget buildMainContainer() {
     return Container(
@@ -320,11 +295,9 @@ class _ProfileDetailState extends State<ProfileDetail> {
       child: Center(
           // alignment: Alignment.centerLeft,
           child: CircleAvatar(
-                  radius: 50,
-                  // backgroundImage: NetworkImage("$imageURL"),
-                  backgroundColor: Colors.transparent,
-                  child: Image.network("$imageURL"),
-                )),
+        radius: 50,
+        backgroundImage: NetworkImage(imageURL),
+      )),
     );
   }
 

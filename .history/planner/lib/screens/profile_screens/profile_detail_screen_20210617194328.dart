@@ -50,22 +50,19 @@ class _ProfileDetailState extends State<ProfileDetail> {
   // final icons = isEnabled == true ? Icon(Icons.edit) : Icon(Icons.save);
 
   // Methods
-  // Future getData() async {
-    
-  //   if (this.mounted) {
-        
+  Future getData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (this.mounted) {
+        userID = prefs.getInt('userID');
 
-  //       getDataAPI();
-  //       getAddress();
-  //     // setState(() {
-  //     // });
-  //   }
-  // }
+        getDataAPI();
+        getAddress();
+      // setState(() {
+      // });
+    }
+  }
 
   Future getDataAPI() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    userID = prefs.getInt('userID');
-
     Uri getAPILink =
         Uri.parse("https://hawkingnight.com/planner/public/api/user/$userID");
 
@@ -91,10 +88,8 @@ class _ProfileDetailState extends State<ProfileDetail> {
             phoneNo = userData.phone_no;
             matricNo = userData.matric_no;
             imageURL = userData.image;
-
-            getAddress();
-          // setState(() {
-          // });
+          setState(() {
+          });
         }
       } else {
         print('FAILED');
@@ -120,6 +115,7 @@ class _ProfileDetailState extends State<ProfileDetail> {
         var addressData = Address.fromJSON(addressMap);
 
         if (this.mounted) {
+          setState(() {
             addressController.text = addressData.address;
             otherAddressController.text = addressData.other_address;
             postcodeController.text = addressData.postcode;
@@ -133,8 +129,7 @@ class _ProfileDetailState extends State<ProfileDetail> {
             city = addressData.city;
             state = addressData.state;
             country = addressData.country;
-          // setState(() {
-          // });
+          });
         }
       } else {
         print('FAILED');
@@ -265,13 +260,13 @@ class _ProfileDetailState extends State<ProfileDetail> {
 
   Widget getForm() {
     return FutureBuilder(
-      future: getDataAPI(),
+      future: getData(),
       builder: (context, snapshot) {
         print(snapshot.toString());
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
             child: CircularProgressIndicator(
-              color: Colors.blue[800],
+              color: Colors.green[800],
             ),
             
           );
@@ -320,11 +315,9 @@ class _ProfileDetailState extends State<ProfileDetail> {
       child: Center(
           // alignment: Alignment.centerLeft,
           child: CircleAvatar(
-                  radius: 50,
-                  // backgroundImage: NetworkImage("$imageURL"),
-                  backgroundColor: Colors.transparent,
-                  child: Image.network("$imageURL"),
-                )),
+        radius: 50,
+        backgroundImage: NetworkImage(imageURL),
+      )),
     );
   }
 

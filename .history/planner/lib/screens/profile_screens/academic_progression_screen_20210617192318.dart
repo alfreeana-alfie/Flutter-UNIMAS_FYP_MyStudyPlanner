@@ -27,21 +27,17 @@ class _ProgressionState extends State<Progression> {
   Map<String, dynamic> lessonList;
 
   // Methods
-  // Future getUserID() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-
-  //   setState(() {
-  //     userID = prefs.getInt('userID');
-
-  //     getLessonList(userID.toString());
-  //   });
-  // }
-
-  Future getLessonList() async {
+  Future getUserID() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    userID = prefs.getInt('userID');
-    String userIDStr = userID.toString();
 
+    setState(() {
+      userID = prefs.getInt('userID');
+
+      getLessonList(userID.toString());
+    });
+  }
+
+  Future getLessonList(String userIDStr) async {
     Uri getAPILink = Uri.parse(
         "https://hawkingnight.com/planner/public/api/get-lesson/$userIDStr");
 
@@ -57,9 +53,9 @@ class _ProgressionState extends State<Progression> {
         for (var lessonMap in lessonList['lesson']) {
           final lessons = Lesson.fromMap(lessonMap);
           if (this.mounted) {
+            setState(() {
               data.add(lessons);
-            // setState(() {
-            // });
+            });
           }
         }
       } else {
@@ -70,11 +66,11 @@ class _ProgressionState extends State<Progression> {
     }
   }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   getUserID();
-  // }
+  @override
+  void initState() {
+    super.initState();
+    getUserID();
+  }
 
   // Widgets
   @override
@@ -163,7 +159,14 @@ class _ProgressionState extends State<Progression> {
                         ),
                       ),
                     ),
-                    getLesson()
+                    ListView(
+                      shrinkWrap: true,
+                      children: data.map(
+                        (p) {
+                          return buildList(p);
+                        },
+                      ).toList(),
+                    ),
                   ],
                 ),
               ),
@@ -180,25 +183,28 @@ class _ProgressionState extends State<Progression> {
       builder: (context, snapshot) {
         print(snapshot.toString());
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: CircularProgressIndicator(
-              color: Colors.blue[500],
+          return Align(
+            alignment: Alignment.topCenter,
+            child: Padding(
+              padding: EdgeInsets.only(top: 70.0),
+              child: CircularProgressIndicator(),
             ),
-            
           );
         } else {
           if (snapshot.hasError)
             return Center(child: Text('Error: ${snapshot.error}'));
           else
-            return Container(
-              height: 190,
-              child: ListView(
-                shrinkWrap: true,
-                children: data.map(
-                  (p) {
-                    return buildList(p);
-                  },
-                ).toList(),
+            return Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: EdgeInsets.only(top: 50.0),
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  children: data.map((p) {
+                    return buildLessonContent(p);
+                  }).toList(),
+                ),
               ),
             );
         }
@@ -233,7 +239,8 @@ class _ProgressionState extends State<Progression> {
                 ),
               ),
             ),
-            Row(children: [
+            Row(
+              children: [
               Expanded(
                 child: AspectRatio(
                   aspectRatio: 1.4,
@@ -568,12 +575,13 @@ class _ProgressionState extends State<Progression> {
                 child: SizedBox(
                   width: 200,
                   child: Text(
-                    '${Lesson.abbr} - ${Lesson.name}',
+                    Lesson.name,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
+                    softWrap: false,
                     style: GoogleFonts.openSans(
                       textStyle:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                     ),
                   ),
                 ),

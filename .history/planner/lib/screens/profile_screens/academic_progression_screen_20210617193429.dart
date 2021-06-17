@@ -190,16 +190,7 @@ class _ProgressionState extends State<Progression> {
           if (snapshot.hasError)
             return Center(child: Text('Error: ${snapshot.error}'));
           else
-            return Container(
-              height: 190,
-              child: ListView(
-                shrinkWrap: true,
-                children: data.map(
-                  (p) {
-                    return buildList(p);
-                  },
-                ).toList(),
-              ),
+            return Container()
             );
         }
       },

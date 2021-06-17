@@ -190,16 +190,13 @@ class _ProgressionState extends State<Progression> {
           if (snapshot.hasError)
             return Center(child: Text('Error: ${snapshot.error}'));
           else
-            return Container(
-              height: 190,
-              child: ListView(
-                shrinkWrap: true,
-                children: data.map(
-                  (p) {
-                    return buildList(p);
-                  },
-                ).toList(),
-              ),
+            return ListView(
+              shrinkWrap: true,
+              children: data.map(
+                (p) {
+                  return buildList(p);
+                },
+              ).toList(),
             );
         }
       },
@@ -571,9 +568,10 @@ class _ProgressionState extends State<Progression> {
                     '${Lesson.abbr} - ${Lesson.name}',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
+                    softWrap: false,
                     style: GoogleFonts.openSans(
                       textStyle:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                     ),
                   ),
                 ),

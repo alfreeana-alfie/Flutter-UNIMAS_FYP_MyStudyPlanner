@@ -271,7 +271,7 @@ class _ProfileDetailState extends State<ProfileDetail> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
             child: CircularProgressIndicator(
-              color: Colors.blue[800],
+              color: Colors.green[800],
             ),
             
           );
@@ -320,11 +320,9 @@ class _ProfileDetailState extends State<ProfileDetail> {
       child: Center(
           // alignment: Alignment.centerLeft,
           child: CircleAvatar(
-                  radius: 50,
-                  // backgroundImage: NetworkImage("$imageURL"),
-                  backgroundColor: Colors.transparent,
-                  child: Image.network("$imageURL"),
-                )),
+        radius: 50,
+        backgroundImage: NetworkImage(imageURL),
+      )),
     );
   }
 
