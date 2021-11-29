@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'dart:convert';
 
-import 'package:MyUni/screens/home_bulletin.dart';
+import 'package:MyUni/screens/bulletin_screens/bulletin_details.dart';
 import 'package:MyUni/screens/lesson_screens/list_lesson.dart';
 import 'package:avatar_letter/avatar_letter.dart';
 import 'package:flutter/material.dart';
@@ -68,6 +68,7 @@ class _HomepageState extends State<Homepage> {
           final lessons = Lesson.fromMap(lessonMap);
           if (this.mounted) {
             data.add(lessons);
+            data.add
             // setState(() {
             // });
           }
@@ -340,8 +341,8 @@ class _HomepageState extends State<Homepage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              BulletinDetails(announcements: News)));
+                          builder: (context) => BulletinDetails(announcements: News, shadeColor: Colors.red[800],)
+                  ));
                 },
                 icon: Icon(Icons.arrow_right),
               ),
